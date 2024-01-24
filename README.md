@@ -1,2 +1,5 @@
 # Data534-Project
+
+This is the project ppt.
+
 * [Project PowerPoint](https://docs.google.com/presentation/d/1k_2HS7sPZK23eSFzE6uvYBL2nj3trNtjOAtTYUTPIIo/edit?usp=sharing) 
