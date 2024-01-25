@@ -52,15 +52,7 @@ result <- req %>%
 result$result$records
 records2019 = as.data.frame(do.call(rbind, result$result[["records"]]),)
 
-preparing<-function(data){
-  names(data)<-tolower(names(data))
-  data<-data %>% 
-    as_tibble() %>% 
-    unnest(everything()) %>% 
-    select(contains("noc_title"),prov,contains("wage_salaire"),reference_period) %>% 
-    mutate_at(vars(contains("wage")),as.numeric)
-  data
-}
+
 preparing <- function(data) {
   # 将列名转换为小写
   names(data) <- tolower(names(data))
@@ -70,29 +62,26 @@ preparing <- function(data) {
     data |>
     as_tibble() |>
     unnest(everything()) |>
-    select(contains("noc_title"), prov, median_wage_salaire_median,low_wage_salaire_minium,high_wage_salaire_maximal, reference_period) |>
+    select(contains("noc_title") & ! contains("fra"), prov, median_wage_salaire_median,low_wage_salaire_minium,high_wage_salaire_maximal, reference_period) |>
     mutate(across(contains("wage"), as.numeric)) 
   
   # 返回处理后的数据
   return(data)
 }
 
-# 示例使用
-# 假设有一个名为 my_data 的数据框
-# 处理数据并将结果存储在新的数据框中
 
 r2023=preparing(record2023)
 r2022=preparing(records2022)
 r2021=preparing(records2021)
 r2020=preparing(records2020)
 r2019=preparing(records2019)
+colnames(r2019) <- colnames(r2022) <- colnames(r2021) <- colnames(r2020) <- colnames(r2023)
+r<-rbind(r2023,r2022,r2021,r2020,r2019)
 
-identical(names(r2021),names(r2022))
 
-r<-rbind(r2021,r2022,r2021,r2020,r2019)
-str(r)
-r2023<-
-  group_by(prov) %>% 
-  summarize(mean_average=mean(average_wage_salaire_moyen,na.rm=TRUE),count=)
-ggplot() %>% 
-  geom_bar(x=prov,y=mean_average)
+r$reference_period <- gsub("(\\d+)-(\\d+)-(\\d+)", "\\1-\\3", r$reference_period)
+
+# 使用tidyr包中的separate_rows函数拆分列
+df_split <- separate_rows(r, reference_period, sep = "-")
+df_split$reference_period <- as.Date(paste0(df_split$reference_period, "-01-01"))
+
