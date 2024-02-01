@@ -18,7 +18,7 @@ translate_dataset <- function(dataset){
   return(dataset)
 }
 
-translate_province <- function(dataset){
+translate_province <- function(province){
   full_prov_name <- c("BC" = "British Columbia",
                       "AB" = "Alberta",
                       "SK" = "Saskatchewan",
@@ -31,13 +31,10 @@ translate_province <- function(dataset){
                       "NL" = "Newfoundland and Labrador",
                       "NS" = "Nova Scotia",
                       "NT" = "Northwest Territories",
+                      "NW" = "Northwest Territories",
                       "PE" = "Prince Edward Island")
-  dataset <- dataset %>%
-    mutate(province = case_when(
-      province %in% names(full_prov_name) ~ full_prov_name[province],
-      TRUE ~ province
-    ))
-  return(dataset)
+  province <- case_when(province %in% names(full_prov_name) ~ full_prov_name[province], TRUE ~ province)
+  return(province)
 }
 
 get_wage_single_year <- function(year, api_key){
@@ -91,7 +88,7 @@ pre_process_dataset <- function(period, json){
       rename(annual_wage_flag = annual_wage_flag_salaire_annuel)
   }
   if(period > 2018){
-    df <- translate_province(df)
+    df$province <- translate_province(df$province)
   }
   df <- df %>%
     mutate(across(ends_with("wage"), ~ ifelse(annual_wage_flag == 1, ., .*40*52)))
