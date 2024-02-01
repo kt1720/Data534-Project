@@ -31,7 +31,7 @@ processing_data <- function(records2019, records2020, records2021, records2022, 
 # use separate_rows of 'tidyr' library to split the reference_period
   r$reference_period <- gsub("(\\d+)-(\\d+)-(\\d+)", "\\1-\\3", r$reference_period)
   df_split <- separate_rows(r, reference_period, sep = "-")
-  ###get all annual wage
+  ###get all annual wage data
   df <- df_split%>%
     rowwise()%>%
     mutate(across(contains('wage_salaire'), ~ifelse(annual_wage_flag_salaire_annuel==0, .*2080, .)))%>%
