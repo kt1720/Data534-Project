@@ -1,10 +1,10 @@
 valid_api_key <- function(api_key){
-  !is.null(api_key) && is.character(api_key) && length(api_key) == 36
+  !is.null(api_key) && is.character(api_key) && nchar(api_key) == 36
 }
 
 translate_dataset <- function(dataset){
   dataset <- as.character(dataset)
-  transaltions <- c("2012" = "5fd8d9f2-008f-41a6-a200-1a0253a4d9b5",
+  translations <- c("2012" = "5fd8d9f2-008f-41a6-a200-1a0253a4d9b5",
                     "2013" = "c4bcd5c4-9b04-4bb8-8067-f5484a69e592",
                     "2014" = "ff3ea4e1-896f-4fa2-8754-c8a9f83c89b0",
                     "2015" = "7215dbfa-8e5c-417c-8c95-0a916eaedcc1",
@@ -20,18 +20,48 @@ translate_dataset <- function(dataset){
 
 get_wage_single_year <- function(year, api_key){
   dataset <- translate_dataset(year)
-  req <- request("https://open.canada.ca/data/en/api/action/datastore_search_sql")
-  result <- req %>%
-    req_headers(Authorization = api_key) %>%
-    req_body_json(list(
-      resource_id = dataset,
-      limit = 45000, 
-      filters = list(ER_Name = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
-                                    "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
-                                    "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
-    ) %>%
-    req_perform() %>%
-    resp_body_json()
-  
+  req <- request("https://open.canada.ca/data/en/api/action/datastore_search")
+  if(year == 2023){
+    result <- req %>%
+      req_headers(Authorization = api_key) %>%
+      req_body_json(list(
+        resource_id = dataset,
+        limit = 45000, 
+        filters = list(ER_Name = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                      "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                      "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
+      ) %>%
+      req_perform() %>%
+      resp_body_json()
+  }
+  else{
+    result <- req %>%
+      req_headers(Authorization = api_key) %>%
+      req_body_json(list(
+        resource_id = dataset,
+        limit = 45000, 
+        filters = list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                      "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                      "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
+      ) %>%
+      req_perform() %>%
+      resp_body_json()
+  }
+  result <- pre_process_dataset(year, result)
   return(result)
+}
+
+pre_process_dataset <- function(year, json){
+  df <- as_tibble(do.call(rbind, json$result$records)) %>%
+    rename_all(tolower) %>%
+    unnest((everything())) %>%
+    select(contains(c("noc_title", "wage_salaire", "annual")), prov, -matches("fra|average")) %>%
+    mutate(across(contains("wage"), as.numeric), year=as.Date(paste0(year, "-01-01"), format = "%Y-%m-%d")) %>%
+    rename(occupation = contains("noc_title"), 
+           low_wage = low_wage_salaire_minium, 
+           median_wage = median_wage_salaire_median, 
+           high_wage = high_wage_salaire_maximal,
+           annual_wage_flag = annual_wage_flag_salaire_annuel, 
+           province = prov) %>%
+    mutate(across(ends_with("wage"), ~ ifelse(annual_wage_flag == 1, ., .*40*52)))
 }

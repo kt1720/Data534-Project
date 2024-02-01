@@ -1,0 +1,18 @@
+---
+title: "Test"
+author: "Kyle Deng"
+date: "2024-01-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
+```
+
+```{r}
+dataset <- get_wage(c(2022, 2023))
+```
+
+
+
