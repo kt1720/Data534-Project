@@ -7,11 +7,13 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
+# Sys.setenv(CKAN_API_KEY = )
+source("get_wage.R")
+source("helpers.R")
 ```
 
 ```{r}
-dataset <- get_wage(c(2022, 2023))
+dataset <- get_wage(c(2013, 2016))
 ```
 
 
