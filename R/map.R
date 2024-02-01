@@ -29,4 +29,20 @@ map <- function(dataset, year, job){
       layout(title = list(text = paste("Median salary of", job, "across Canada<br>",
                                        "<sup>Year", year, '</sup>')))
   }
+  else{
+    dataset <- dataset %>%
+      mutate(text = paste("Province:", province, "\nMedian wage:", median_wage))
+    ne_states(country = "Canada", returnclass = "sf") %>%
+      rename(province = gn_name) %>%
+      select(province, geometry) %>%
+      left_join(dataset, by = "province") %>%
+      filter(occupation == job) %>%
+      plot_ly(stroke = I("black"), split = ~province, color = ~median_wage, 
+              colors = viridis::inferno(99),
+              text = ~text, showlegend = FALSE, hoveron = "fills", frame = ~year) %>%
+      colorbar(title = "Median wage") %>%
+      style(hoverlabel = list(bgcolor = "white")) %>%
+      animation_slider(currentvalue = list(prefix="Year: ", font = list(color = "red"))) %>%
+      layout(title = list(text = paste("Annual median salary of", job, "across Canada<br>")))
+  }
 }

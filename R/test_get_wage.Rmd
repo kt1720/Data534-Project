@@ -16,7 +16,7 @@ source("map.R")
 ```
 
 ```{r}
-dataset <- get_wage(2023)
+dataset <- get_wage(c(2019, 2020, 2021, 2022))
 ```
 
 ```{r}
@@ -29,5 +29,34 @@ salary_range(dataset, "Data scientists", "BC")
 
 ```{r}
 map(dataset, 2023, "Data scientists")
+```
+
+```{r}
+dataset <- dataset %>%
+    mutate(text = paste("Province:", province, "\nMedian wage:", median_wage))
+
+ne_states(country = "Canada", returnclass = "sf") %>%
+      rename(province = gn_name) %>%
+      select(province, geometry) %>%
+      right_join(dataset, by = "province") %>%
+      filter(occupation == "Data entry clerks") %>%
+      plot_ly(stroke = I("black"), split = ~province, color = ~median_wage, 
+              colors = viridis::inferno(99),
+              text = ~text, showlegend = FALSE, hoveron = "fills", frame = ~year) %>%
+      colorbar(title = "Median wage") %>%
+      style(hoverlabel = list(bgcolor = "white")) %>%
+      animation_slider(currentvalue = list(prefix="Year: ", font = list(color = "red"))) %>%
+      layout(title = list(text = paste("Annual median salary of Data entry clerks across Canada<br>")))
+```
+
+```{r}
+dataset_2022 <- dataset %>%
+  filter(year == "2022-01-01")
+```
+
+```{r}
+list_wage_occupations(dataset, "data")
+entry_clerks <- dataset %>%
+  filter(occupation == "Data entry clerks")
 ```
 
