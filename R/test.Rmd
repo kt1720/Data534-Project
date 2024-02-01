@@ -15,7 +15,7 @@ source("salary_range.R")
 ```
 
 ```{r}
-dataset <- get_wage(c(2022, 2023))
+dataset <- get_wage(2023)
 ```
 
 ```{r}
@@ -26,4 +26,7 @@ list_wage_occupations(dataset, "data")
 salary_range(dataset, "Data scientists", "BC")
 ```
 
+```{r}
+dataset <- translate_province(dataset)
+```
 

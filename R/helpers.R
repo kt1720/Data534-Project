@@ -18,6 +18,28 @@ translate_dataset <- function(dataset){
   return(dataset)
 }
 
+translate_province <- function(dataset){
+  full_prov_name <- c("BC" = "British Columbia",
+                      "AB" = "Alberta",
+                      "SK" = "Saskatchewan",
+                      "MB" = "Manitoba",
+                      "ON" = "Ontario",
+                      "QC" = "Quebec",
+                      "NB" = "New Brunswick",
+                      "YK" = "Yukon",
+                      "NU" = "Nunavut",
+                      "NL" = "Newfoundland and Labrador",
+                      "NS" = "Nova Scotia",
+                      "NT" = "Northwest Territories",
+                      "PE" = "Prince Edward Island")
+  dataset <- dataset %>%
+    mutate(province = case_when(
+      province %in% names(full_prov_name) ~ full_prov_name[province],
+      TRUE ~ province
+    ))
+  return(dataset)
+}
+
 get_wage_single_year <- function(year, api_key){
   dataset <- translate_dataset(year)
   req <- request("https://open.canada.ca/data/en/api/action/datastore_search")
@@ -67,7 +89,10 @@ pre_process_dataset <- function(period, json){
   } else{
     df <- df %>%
       rename(annual_wage_flag = annual_wage_flag_salaire_annuel)
-  }  
+  }
+  if(period > 2018){
+    df <- translate_province(df)
+  }
   df <- df %>%
     mutate(across(ends_with("wage"), ~ ifelse(annual_wage_flag == 1, ., .*40*52)))
   df
