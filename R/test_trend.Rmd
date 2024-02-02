@@ -11,11 +11,11 @@ Try executing this chunk by clicking the *Run* button within the chunk or by pla
 Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
 source("get_wage.R")
 source("helpers.R")
-source("list_wage_occupations.R")
+source("list_occupations.R")
 source("salary_range.R")
 source("map.R")
 source("wage_trend.R")
-source("D:/MDS/block4/Data534/project/get_wage/Data534-Project/tests/testthat.R")
+# source("D:/MDS/block4/Data534/project/get_wage/Data534-Project/tests/testthat.R")
 ```
 
 ```{r}
