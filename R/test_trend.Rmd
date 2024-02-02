@@ -1,0 +1,51 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+# Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
+source("get_wage.R")
+source("helpers.R")
+source("list_wage_occupations.R")
+source("salary_range.R")
+source("map.R")
+source("wage_trend.R")
+source("D:/MDS/block4/Data534/project/get_wage/Data534-Project/tests/testthat.R")
+```
+
+```{r}
+records=get_wage(c("2012","2013","2016","2019","2020","2021","2022","2023"))
+records
+```
+```{r}
+trend(records,"overall")
+```
+
+```{r}
+trend(records,"specific")
+```
+
+```{r}
+# install.packages("covr")
+library(covr)
+report()
+
+```
+```{r}
+map(records,2023,"Legislators")
+```
+```{r}
+setwd("D:/MDS/block4/Data534/project/get_wage/Data534-Project/R")
+```
+
+```{r}
+library(covr)
+cov <- package_coverage()
+
+```
+
