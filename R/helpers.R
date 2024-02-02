@@ -76,7 +76,7 @@ pre_process_dataset <- function(period, json){
   df <- as_tibble(do.call(rbind, json$result$records)) %>%
     rename_all(tolower) %>%
     unnest((everything())) %>%
-    select(contains(c("noc_title", "wage_salaire", "annual")), prov, -matches("fra|average")) %>%
+    select(contains(c("noc_title", "wage_salaire", "annual")), prov, -matches("fra|average|noc_title_f")) %>%
     mutate(across(contains("wage"), as.numeric), year=as.Date(paste0(period, "-01-01"), format = "%Y-%m-%d")) %>%
     rename(occupation = contains("noc_title"), 
            low_wage = low_wage_salaire_minium, 
