@@ -5,7 +5,7 @@ year_input <- function(){
   return(year_input)
 }
 job_title_number_input <- function(){
-  selected_noc_title_number <- as.numeric(readline(prompt = "select one noc, input noc number \n"))
+  selected_noc_title_number <- as.numeric(readline(prompt = "select one job, input job row number \n"))
   return(selected_noc_title_number)
 }
 average_median_bar_plot <- function(new_dataset){
