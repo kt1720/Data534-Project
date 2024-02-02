@@ -6,8 +6,3 @@ testthat::test_that("identify outliers successfully", {
   expect_equal(score_result, expected_score)
 })
 
-
-
-
-# class(identify_outliers(c(1,2,3,4,5)))
-double numeric
