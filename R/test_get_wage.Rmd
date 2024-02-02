@@ -37,3 +37,22 @@ map(single_year, "Data scientists")
 map(mul_year, "General practitioners and family physicians")
 ```
 
+```{r}
+source("NA_outliers.R")
+```
+
+```{r}
+new_dataset <- process_NA(dataset)
+```
+
+```{r}
+process_outlier(new_dataset)
+```
+
+```{r}
+source("average_median_bar_plot.R")
+```
+
+```{r}
+average_median_bar_plot(new_dataset)
+```
