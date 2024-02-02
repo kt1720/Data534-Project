@@ -18,8 +18,9 @@ if (!requireNamespace("patchwork", quietly = TRUE)) {
 
 library(tidyverse) 
 library(patchwork)
-#' @export
-trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia"),positions=c("Legislators")){ #set some default values
+
+trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia"),positions=c("legislators")){ #set some default values
+  positions<-tolower(positions)
   #get overview of all the dataset
   if (type=="overall"){
     boxplot<-records %>% 
@@ -49,6 +50,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
     
     line<-records%>%
       #choose the province and type of jobs selected
+      mutate(occupation= tolower(occupation)) %>% 
       filter(province %in% provs ,occupation %in% positions, median_wage<filte) %>% 
       group_by(year,province,occupation) %>%
       #calculate the mean value to draw the trend plot
