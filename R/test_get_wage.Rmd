@@ -16,8 +16,8 @@ source("map.R")
 ```
 
 ```{r}
-single_year <- get_wage(2023)
-mul_year <- get_wage(c(2012, 2013, 2016, 2019, 2020, 2021, 2022, 2023))
+single_year <- get_wage(2014)
+mul_year <- get_wage(c(2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022, 2023))
 ```
 
 ```{r}

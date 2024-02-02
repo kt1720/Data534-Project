@@ -46,15 +46,19 @@ get_wage_single_year <- function(year, api_key){
       req_body_json(list(
         resource_id = dataset,
         limit = 45000, 
-        filters = if(year ==2023){
-        list(ER_Name = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
-                            "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
-                            "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia"))
-        } else{
+        filters = if(year == 2023){
+            list(ER_Name = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia"))
+        }else if(year == 2014 | year == 2015){
+            list(Economic_Region = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                        "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                        "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia"))
+        }else{
             list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
                                        "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
                                        "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia"))
-          }
+        }
         )) %>%
         req_perform() %>%
         resp_body_json()
