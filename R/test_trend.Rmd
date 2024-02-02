@@ -24,6 +24,16 @@ records
 
 ```
 
+# Introduction
+
+## API
+
+We use wage data from [Canada Open Data](https://open.canada.ca/data/en/dataset/adad580f-76b0-4502-bd05-20c125de9116) website in 2012-2016 and 2019-2023.
+
+This dataset published by the Canadian government institutions which means they are accurate, providing an overall reflection of the general state of the job market. Crawling from the website will deliver dataset to end users in JSON format.
+
+At first, users need to apply to their own API keys (here)[]
+
 # Working with wage data
 
 ## Display the trend of wage based on provinces and occupations
@@ -58,7 +68,7 @@ trend(records,"overall",filte=200000)
 
 If you choose the `type=specific`, you can also change the parameter `filte` based on your knowledge. In addition, you can also change the parameters province using `provs`and occupation using `positions`. Note both of these two parameters need to vector types.
 
-As the plot shows, **Computer and information systems managers** is highest paid occupation, **Data entry clerks** gains lowest paid among four jobs
+As the plot shows, **Computer and information systems managers** is highest paid occupation, **Data entry clerks** gains lowest paid among four jobs within the range from 30000 to 60000. Data Scientists are just started occupation.
 
 ```{r}
 trend(records,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
