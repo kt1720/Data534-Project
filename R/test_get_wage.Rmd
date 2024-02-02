@@ -10,53 +10,30 @@ knitr::opts_chunk$set(echo = TRUE)
 # Sys.setenv(CKAN_API_KEY = )
 source("get_wage.R")
 source("helpers.R")
-source("list_wage_occupations.R")
+source("list_occupations.R")
 source("salary_range.R")
 source("map.R")
 ```
 
 ```{r}
-dataset <- get_wage(c(2019, 2020, 2021, 2022))
+single_year <- get_wage(2023)
+mul_year <- get_wage(c(2012, 2013, 2016, 2019, 2020, 2021, 2022, 2023))
 ```
 
 ```{r}
-list_wage_occupations(dataset, "data")
+list_occupations(mul_year, "data")
 ```
 
 ```{r}
-salary_range(dataset, "Data scientists", "BC")
+salary_range(mul_year, "General practitioners and family physicians", "BC") 
 ```
 
 ```{r}
-map(dataset, 2023, "Data scientists")
+map(single_year, "Data scientists")
 ```
 
-```{r}
-dataset <- dataset %>%
-    mutate(text = paste("Province:", province, "\nMedian wage:", median_wage))
-
-ne_states(country = "Canada", returnclass = "sf") %>%
-      rename(province = gn_name) %>%
-      select(province, geometry) %>%
-      right_join(dataset, by = "province") %>%
-      filter(occupation == "Data entry clerks") %>%
-      plot_ly(stroke = I("black"), split = ~province, color = ~median_wage, 
-              colors = viridis::inferno(99),
-              text = ~text, showlegend = FALSE, hoveron = "fills", frame = ~year) %>%
-      colorbar(title = "Median wage") %>%
-      style(hoverlabel = list(bgcolor = "white")) %>%
-      animation_slider(currentvalue = list(prefix="Year: ", font = list(color = "red"))) %>%
-      layout(title = list(text = paste("Annual median salary of Data entry clerks across Canada<br>")))
-```
 
 ```{r}
-dataset_2022 <- dataset %>%
-  filter(year == "2022-01-01")
-```
-
-```{r}
-list_wage_occupations(dataset, "data")
-entry_clerks <- dataset %>%
-  filter(occupation == "Data entry clerks")
+map(mul_year, "General practitioners and family physicians")
 ```
 
