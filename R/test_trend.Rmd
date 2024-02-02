@@ -19,7 +19,7 @@ source("D:/MDS/block4/Data534/project/get_wage/Data534-Project/tests/testthat.R"
 ```
 
 ```{r}
-records=get_wage(c("2012","2013","2016","2019","2020","2021","2022","2023"))
+records=get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023"))
 records
 
 ```
@@ -56,7 +56,7 @@ When we set `filte=200000`, it is easier to see the scenario of common people.
 trend(records,"overall",filte=200000)
 ```
 
-If you choose the `type=specific`, you can also change the parameter `filte` based on your knowledge. In addition, you can also change the parameters province using `provs`and occupation using `positions`. Note there are vector types.
+If you choose the `type=specific`, you can also change the parameter `filte` based on your knowledge. In addition, you can also change the parameters province using `provs`and occupation using `positions`. Note both of these two parameters need to vector types.
 
 ```{r}
 trend(records,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
