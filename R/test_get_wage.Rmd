@@ -60,3 +60,14 @@ entry_clerks <- dataset %>%
   filter(occupation == "Data entry clerks")
 ```
 
+```{r}
+source("NA_outliers.R")
+```
+
+```{r}
+new_dataset <- process_NA(dataset)
+```
+
+```{r}
+process_outlier(new_dataset)
+```
