@@ -32,7 +32,9 @@ translate_province <- function(province){
                       "NS" = "Nova Scotia",
                       "NT" = "Northwest Territories",
                       "NW" = "Northwest Territories",
-                      "PE" = "Prince Edward Island")
+                      "PE" = "Prince Edward Island",
+                      "YT" = "Yukon")
+  
   province <- case_when(province %in% names(full_prov_name) ~ full_prov_name[province], TRUE ~ province)
   return(province)
 }
@@ -91,7 +93,7 @@ pre_process_dataset <- function(period, json){
     df <- df %>%
       rename(annual_wage_flag = annual_wage_flag_salaire_annuel)
   }
-  if(period > 2018){
+  if(period != 2012 & period != 2013 & period != 2016){
     df$province <- translate_province(df$province)
   }
   df <- df %>%
