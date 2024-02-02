@@ -1,0 +1,109 @@
+---
+title: "data_wrangling_outlier_jobs"
+author: "Jade Yu"
+date: "2024-01-28"
+output: pdf_document
+---
+
+```{r}
+library(tidyverse)
+library(httr2)
+
+req <- request("https://open.canada.ca/data/en/api/action/datastore_search")
+id = c('ff45366b-1c17-4862-8325-f6e7797c7c56', '8d49f430-6dfd-4122-a18d-b0868381f0e6', '74a2d523-9760-415e-b722-8a237ab649db', 'c2db20d5-92bc-40d2-aa9f-6c868badc0b9', '3abae67c-78a7-4e06-b2b2-fe9870100381')
+
+result_2023 <- req %>%
+  req_headers(Authorization = "522bd094-7f62-4c3b-914d-bf6f0a20dc94") %>%
+  req_body_json(list(
+    resource_id = id[1], #'ff45366b-1c17-4862-8325-f6e7797c7c56',
+    limit = 45000, 
+    filters = list(ER_Name = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                  "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                  "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
+  ) %>%
+  req_perform() %>%
+  resp_body_json()
+
+result_2022 <- req %>%
+  req_headers(Authorization = "522bd094-7f62-4c3b-914d-bf6f0a20dc94") %>%
+  req_body_json(list(
+    resource_id = id[2], #'ff45366b-1c17-4862-8325-f6e7797c7c56',
+    limit = 45000, 
+    filters = list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                  "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                  "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
+  ) %>%
+  req_perform() %>%
+  resp_body_json()
+
+result_2021 <- req %>%
+  req_headers(Authorization = "522bd094-7f62-4c3b-914d-bf6f0a20dc94") %>%
+  req_body_json(list(
+    resource_id = id[3], #'ff45366b-1c17-4862-8325-f6e7797c7c56',
+    limit = 45000, 
+    filters = list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                  "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                  "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
+  ) %>%
+  req_perform() %>%
+  resp_body_json()
+
+result_2020 <- req %>%
+  req_headers(Authorization = "522bd094-7f62-4c3b-914d-bf6f0a20dc94") %>%
+  req_body_json(list(
+    resource_id = id[4], #'ff45366b-1c17-4862-8325-f6e7797c7c56',
+    limit = 45000, 
+    filters = list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                  "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                  "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
+  ) %>%
+  req_perform() %>%
+  resp_body_json()
+
+result_2019 <- req %>%
+  req_headers(Authorization = "522bd094-7f62-4c3b-914d-bf6f0a20dc94") %>%
+  req_body_json(list(
+    resource_id = id[5], #'ff45366b-1c17-4862-8325-f6e7797c7c56',
+    limit = 45000, 
+    filters = list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+                                  "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
+                                  "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia")))
+  ) %>%
+  req_perform() %>%
+  resp_body_json()
+
+pre_process <- function(json){
+  period <- as.numeric(str_extract(str_remove(deparse(substitute(json)), "result_"), "\\d+")) # Extract the year of the data
+  df = as.data.frame(do.call(rbind, json$result$records)) %>%
+              rename_all(tolower) %>%
+              as_tibble() %>%
+              unnest(everything()) %>%
+              select(contains("noc_title"), prov, contains("wage_salaire"), data_source_e, -matches("fra|average")) %>% 
+#              filter(complete.cases(select(., all_of(contains("wage_salaire"))))) %>%   #Filter out rows with missing value in any wage columns
+              mutate(across(contains("wage"), as.numeric), year = period) %>% # Change all wage columns to numeric type and create a new column with
+              rename_with(~ gsub("_eng", "", .), contains("_eng"))            # the year 
+}
+
+records_2019 <- pre_process(result_2019)
+records_2020 <- pre_process(result_2020)
+records_2021 <- pre_process(result_2021)
+records_2022 <- pre_process(result_2022)
+records_2023 <- pre_process(result_2023)
+              
+records <- rbind(records_2023, records_2022, records_2021, records_2020, records_2019)
+```
+
+```{r}
+duplicated_rows <- function(df){
+  duplicated_rows <- df%>%
+  group_by(prov, year, noc_title)%>%
+  mutate(duplicate_count=n())%>%
+  filter(duplicate_count>1)
+  return(duplicated_rows)
+}
+duplicates_check <- duplicated_rows(records)
+```
+
+```{r}
+any(is.na(records))
+```
