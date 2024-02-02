@@ -71,3 +71,11 @@ new_dataset <- process_NA(dataset)
 ```{r}
 process_outlier(new_dataset)
 ```
+
+```{r}
+source("average_median_bar_plot.R")
+```
+
+```{r}
+average_median_bar_plot(new_dataset)
+```
