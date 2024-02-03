@@ -21,7 +21,7 @@ mul_year <- get_wage(c(2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022, 202
 ```
 
 ```{r}
-list_occupations(mul_year, "issss")
+list_occupations(mul_year, "data")
 ```
 
 ```{r}
