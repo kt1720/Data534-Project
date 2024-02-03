@@ -62,7 +62,7 @@ map <- function(dataset, job){
       dplyr::distinct(province, year) |>
       tidyr::expand(province, year) |>
       dplyr::left_join(dataset |> dplyr::filter(occupation == job) |>
-                         dplyr::mutate(text = paste("Province:", province, "\nMedian wage:", median_wage)),
+                         dplyr::mutate(text = paste("Province:", province, "\nMedian salary:", median_wage)),
                        by = c("province", "year"))
     rnaturalearth::ne_states(country = "Canada", returnclass = "sf") |>
       dplyr::rename(province = gn_name) |>
@@ -71,9 +71,9 @@ map <- function(dataset, job){
       plotly::plot_ly(stroke = I("black"), split = ~province, color = ~median_wage, 
                       colors = viridis::inferno(99),
                       text = ~text, showlegend = FALSE, hoveron = "fills", frame = ~year) |>
-      plotly::colorbar(title = "Median wage") |>
+      plotly::colorbar(title = "Median salary") |>
       plotly::style(hoverlabel = list(bgcolor = "white")) |>
       plotly::animation_slider(currentvalue = list(prefix="Year: ", font = list(color = "red"))) |>
-      plotly::layout(title = list(text = paste("Annual median salary of", job, "across Canada<br>")))
+      plotly::layout(title = list(text = paste("Median salary of", job, "across Canada<br>")))
   }
 }
