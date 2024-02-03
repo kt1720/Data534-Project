@@ -21,18 +21,18 @@ mul_year <- get_wage(c(2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022, 202
 ```
 
 ```{r}
-list_occupations(single_year, "data")
+list_occupations(mul_year, "issss")
 ```
 
 ```{r}
-salary_range(mul_year, "General practitioners and family physicians", "BC") 
+salary_range(mul_year, "Judges", "ON") 
 ```
 
-```{r}
-map(single_year, "Data Entry Clerks" )
+```{r, warning=FALSE}
+map(single_year, "Legislators" )
 ```
 
-```{r}
+```{r, warning=FALSE}
 map(mul_year, "General practitioners and family physicians")
 ```
 
