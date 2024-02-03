@@ -1,7 +1,7 @@
 #' Access to Canadian wage data in Canada open data through the CKAN API
 #' 
 #' This function retrieves wage data from the Canada open data CKAN API. An API key is required for access, 
-#' and users can provide a single year or a vector of years to retrieve data for multiple years. .
+#' and users can provide a single year or a vector of years to retrieve data for multiple years. 
 #' The function internally calls \code{get_wage_single_year} to fetch data for individual years.
 #'
 #' @param dataset A character string or vector of character strings representing the dataset identifier(s) for wage data.
