@@ -51,17 +51,18 @@ test_that("test the specific",  {
   trend(records,"specific",provs=c("Quebec","British Columbia","Ontario"),positions=c("Legislators","Senior Managers - Trade"))
   # Check if a plot has been created
   generated_img <- magick::image_read("D:/MDS/block4/Data534/project/get_wage/Data534-Project/R/special_wage_trend.png")
-  # comparing image
-  # reference_img <- imager::load.image("D:/MDS/block4/Data534/project/get_wage/Data534-Project/R/overall.png")
-  # # Compare the images
-  # diff <- imager::imager_compare(generated_img, reference_img)
-  # # Check if the difference is below a certain threshold
-  # expect_true(diff < 0.1)
-  # 
-  # 
   # Check some properties of the image
   expect_true(magick::image_info(generated_img)$width == 2400)
   expect_true(magick::image_info(generated_img)$height== 1800)
   expect_true(length(dev.list()) > 0)
 })
 
+test_that("test the map plot",  {
+  # call my function
+  map(records,"Legislators")  # Check if a plot has been created
+  generated_img <- magick::image_read("D:/MDS/block4/Data534/project/get_wage/Data534-Project/R/special_wage_trend.png")
+  # Check some properties of the image
+  # expect_true(magick::image_info(generated_img)$width == 2400)
+  # expect_true(magick::image_info(generated_img)$height== 1800)
+  expect_true(length(dev.list()) > 0)
+})

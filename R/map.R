@@ -25,9 +25,10 @@ map <- function(dataset, job){
               legend.text	= element_text(color="grey35", size=9)) +
         labs(title = paste("Median salary of", job, "across Canada"),
              subtitle = paste("Year", dataset$year[1], '%Y'))
-    ggplotly(map_ca, tooptip = "text") %>%
+   ggplotly(map_ca, tooptip = "text") %>%
       layout(title = list(text = paste("Median salary of", job, "across Canada<br>",
                                        "<sup>Year", format(dataset$year[1], "%Y"), '</sup>')))
+    # plot(my_plot)
   }
   else{
     map_data <- dataset %>%
@@ -47,5 +48,6 @@ map <- function(dataset, job){
       style(hoverlabel = list(bgcolor = "white")) %>%
       animation_slider(currentvalue = list(prefix="Year: ", font = list(color = "red"))) %>%
       layout(title = list(text = paste("Annual median salary of", job, "across Canada<br>")))
+    # plot(map_data)
   }
 }

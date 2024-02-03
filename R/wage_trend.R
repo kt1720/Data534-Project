@@ -26,7 +26,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
     boxplot<-records %>% 
       filter(median_wage<filte) %>% 
       group_by(year,province) %>%
-      ggplot() +
+      ggplot(varwidth=TRUE) +
       #see the distribution around the nation
       geom_boxplot(aes(x = year, y = median_wage,col=province)) #varwidth = TRUE
     
