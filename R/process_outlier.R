@@ -18,7 +18,15 @@ library("VIM")
 library(dplyr)
 library(ggplot2)
 library(scales)
-source("average_median_bar_plot.R", encoding = 'UTF-8')
+# source("average_median_bar_plot.R", encoding = 'UTF-8')
+year_input <- function(){
+  year_input <- readline(prompt = "Enter year:")
+  return(year_input)
+}
+job_title_number_input <- function(){
+  selected_noc_title_number <- as.numeric(readline(prompt = "select one job, input job row number \n"))
+  return(selected_noc_title_number)
+}
 process_outlier <- function(dataset){
   outliers_df <- dataset%>%
     group_by(occupation)%>%
