@@ -1,4 +1,4 @@
-![Unit test run](https://github.com/kt1720/Data534-Project/blob/main/.github/workflows/coverage.yml/badge.svg)[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Unit test run](https://github.com/kt1720/Data534-Project/actions/workflows/coverage.yml/badge.svg)[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Data534-Project
 
