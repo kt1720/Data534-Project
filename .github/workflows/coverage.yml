@@ -1,4 +1,4 @@
-name: R Package Build and Test
+name: R check
 
 on:
   push:
