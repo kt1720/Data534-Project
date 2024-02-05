@@ -59,8 +59,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       #use col to distinguish type of job and facet to province
       geom_line(aes(x=year,y=mean_average,col=occupation))+
       geom_point(aes(x=year,y=mean_average,col=occupation))+
-      facet_grid(~province)+
-      theme_minimal()
+      facet_grid(~province)
     
     # point<-records%>%
     #   #choose the province and type of jobs selected

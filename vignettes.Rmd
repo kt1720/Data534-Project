@@ -1,20 +1,10 @@
 ---
-title: "Wage_exploration"
+title: "R Notebook"
 output: html_notebook
 ---
 
-# Introduction
-
-## API
-
-We use wage data from [Canada Open Data](https://open.canada.ca/data/en/dataset/adad580f-76b0-4502-bd05-20c125de9116) website in 2012-2016 and 2019-2023.
-
-This dataset published by the Canadian government institutions which means they are accurate, providing an overall reflection of the general state of the job market. Crawling from the website will deliver dataset to end users in JSON format.
-
-At first, users need to apply to their own API keys (here)[]. Once you have your key, you can store it in your system environment so it is automatically used in API calls. To do so just enter `Sys.setenv(CKAN_API_KEY = "your_api_key")'`
-
 ```{r}
-# Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
+Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
 source("get_wage.R")
 source("helpers.R")
 source("list_occupations.R")
@@ -24,28 +14,21 @@ source("wage_trend.R")
 # source("D:/MDS/block4/Data534/project/get_wage/Data534-Project/tests/testthat.R")
 ```
 
-## Accessing Wage Data
-
-You can run `get_wage` to get datasets from Canada Open Data API. Based on what you need, you need to put a vector to scrape data, even though just one year.(e.g. `get_wage(c("2023"))`). Note that when`annual_wage_flag=0` which means the weekly payment, so multiply the `low_wage`,`high_wage`and`median_wage` columns by 40 (40 hours per week) and then 52(52 weeks per year).
-
-You can feel safe and happy to use this function because we have do a lot data wrangling making data tidy:)
-
 ```{r}
 records=get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023"))
 records
+
 ```
 
-There are 63,748 samples in total and 7 variables to describe the data. Our main concern is occupation, median salary province and year.
+# Introduction
 
-This data set has 753 occupations, 14 provinces and median_wage from 19760 to 235980160.
+## API
 
-```{r echo=FALSE}
-occupation_data<-unique(tolower(records$occupation))
-# occupation_data
-province<-unique(records$province)
-# province
-summary(records$median_wage)
-```
+We use wage data from [Canada Open Data](https://open.canada.ca/data/en/dataset/adad580f-76b0-4502-bd05-20c125de9116) website in 2012-2016 and 2019-2023.
+
+This dataset published by the Canadian government institutions which means they are accurate, providing an overall reflection of the general state of the job market. Crawling from the website will deliver dataset to end users in JSON format.
+
+At first, users need to apply to their own API keys (here)[]
 
 # Working with wage data
 

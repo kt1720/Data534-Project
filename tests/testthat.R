@@ -60,7 +60,7 @@ test_that("test the specific",  {
 test_that("test the map plot",  {
   # call my function
   map(records,"Legislators")  # Check if a plot has been created
-  generated_img <- magick::image_read("D:/MDS/block4/Data534/project/get_wage/Data534-Project/R/special_wage_trend.png")
+  # generated_img <- magick::image_read("D:/MDS/block4/Data534/project/get_wage/Data534-Project/R/map.png")
   # Check some properties of the image
   # expect_true(magick::image_info(generated_img)$width == 2400)
   # expect_true(magick::image_info(generated_img)$height== 1800)
