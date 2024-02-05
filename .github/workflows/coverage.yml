@@ -1,0 +1,30 @@
+name: R Package Build and Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up R
+      uses: r-lib/actions/setup-r@v1
+      with:
+        r-version: 4.1
+
+    - name: Install dependencies
+      run: |
+        install.packages(c("remotes", "devtools", "testthat"))
+        remotes::install_github("r-lib/covr")
+
+    - name: Build package
+      run: R CMD build .
+
+    - name: Check package
+      run: R CMD check *tar.gz
+
+    - name: Run code coverage
+      run: R -e 'covr::codecov()'
