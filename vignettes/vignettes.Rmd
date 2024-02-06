@@ -1,5 +1,5 @@
 ---
-title: "vignettes"
+title: "canwage"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vignettes}
@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(Data534.wage)
-```
-
 ```{r include=FALSE}
 # Sys.setenv(CKAN_API_KEY = "your own API key")#"522bd094-7f62-4c3b-914d-bf6f0a20dc94"
 knitr::opts_chunk$set(echo = TRUE)
@@ -27,20 +23,45 @@ source("../R/list_occupations.R")
 source("../R/salary_range.R")
 source("../R/map.R")
 source("../R/wage_trend.R")
+# source("tests/testthat.R")
+```
+
+```{r, include = F}
+records=get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023"))
+records
 source('../Rprocess_NA.R')
 source("../Rprocess_outlier.R")
 source("../average_median_bar_plot.R")
 ```
 
 # Introduction
+As job seekers, we often find it difficult to obtain salary information on the role we are applying to. Therefore, having access to reliable salary information on different jobs can not only help us in deciding whether to apply for a specific role, but can also be helpful in salary negotiation after receiving an offer. With this mission in mind, the **canwage** package will serve as an API wrapper and provide functionality to users to access annual wage data published by Canada Open Data through API access. 
 
 ## API
 
-We use wage data from [Canada Open Data](https://open.canada.ca/data/en/dataset/adad580f-76b0-4502-bd05-20c125de9116) website in 2012-2016 and 2019-2023.
+We use wage data from [Canada Open Data](https://open.canada.ca/data/en/dataset/adad580f-76b0-4502-bd05-20c125de9116) website in 2012-2016 and 2019-2023. Although the 2017 and 2018 dataset are available to download in csv format on the website, they weren't published on the data API. Hence, there is no way to access them through API call.
 
-This dataset published by the Canadian government institutions which means they are accurate, providing an overall reflection of the general state of the job market. Crawling from the website will deliver dataset to end users in JSON format.
+This dataset published by the Canadian government institutions which means they are accurate, providing an overall reflection of the general state of the Canadian job market. Crawling from the website will deliver dataset to end users in JSON format.
 
 At first, users need to apply to their own API keys [here](https://docs.ckan.org/en/2.8/api/)
+
+### Installing the package
+
+```
+# install.packages("canwage")
+library(canwage)
+# Set API key as an enviornment variable
+Sys.setenv(CKAN_API_KEY = "")
+```
+
+Or alternatively, download the development version of the package from Github.
+```
+# install.packages("devtools")
+remotes::install("kt1720/canwage")
+library(canwage)
+# Set API key as an enviornment variable
+Sys.setenv(CKAN_API_KEY = "")
+```
 
 # Working with wage data
 
@@ -66,11 +87,16 @@ In the whole period data set, there are totally 63,748 observations and 7 variab
 
 7.  **year:** Year of recorded data
 
-```{r}
-single_year <- get_wage(2014)
-mul_year <- get_wage(c(2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022, 2023))
-mul_year
+**canwage** connects user to the wage data through the `get_wage` function. Since the API call will return the data in JSON format, `get_wage` will also handle the data cleaning to ensure the end user receive the data in a clean dataframe/tibble format.
 
+`get_wage` takes two parameters, the first parameter could be a single year integer or a vector of year integers depending on the year or years of data that the users want to access. The second parameter is the API key, the default is to get the CKAN_API_KEY inside the environment variable. 
+
+```{r}
+# Returns a data frame with a single year data
+single_year <- get_wage(2014)
+
+# Returns a data frame with multiple years data
+mul_year <- get_wage(c(2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022, 2023))
 ```
 
 ```{r echo=FALSE}
@@ -87,6 +113,11 @@ As you can see, the function `list_occupations` can identify relatively jobs bas
 ```{r}
 unique(tolower(list_occupations(mul_year, "data")))
 ```
+
+As previously mentioned, the Wage dataset from the Canada Open Data website only provides API access to the 2012-2016 and 2019-2023 dataset. Therefore, the year integer `get_wage` can accept would be 2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022 and 2023. Any other integer passes into the function would return an error in the API call. And as data for future years becomes available, they will be added into the input parameter list.
+
+The dataset contains three numerical columns that display the minimum, median, and maximum wage estimates for different occupations. But since the data is coming from different government organizations, some of the data are displayed in annual salary and some are displayed as hourly wage. Therefore, in order to achieve a consistent unit in these three columns, I transformed all rows with hourly wage data by using it to multiply by 40 and then by 52, assuming 40 is the hours worked in a typical work week and 52 is the number of weeks in a year.
+
 The function `salary_range` can intuitively show the salary interval of specified province and occupation.
 ```{r}
 salary_range(mul_year, "Judges", "ON") 
@@ -130,18 +161,15 @@ As the plot shows, **Computer and information systems managers** is highest paid
 trend(mul_year,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
 ```
 
-## The interactive map plot 
-
-In the following map plot, you can use single_year data set to see the distribution of the wage of "Data Entry Clerks" in different provinces.
-The darker the color, the higher the salary lelel.
+## Wage Map
+For a more direct visualization of the median wage data for a specific occupation across Canada, **canwage** provides a `map(dataset, job)` function that shows an interactive Canadian map with the median wage information. If the dataset passed into the function only contains a single year of wage data, the plot will show a static map that displays the respective occupation's median salary across Canada. If the input dataset contains multiple years of wage data, the plot will instead show an animated map that displays the respective occupations's median salary across Canada over the years.  
 ```{r}
-map(single_year, "Data Entry Clerks" )
-```
-And also you can also input whole data set, drag the horizontal widget.
-```{r}
-map(mul_year, "General practitioners and family physicians")
-```
+# Returns an interactive static map that outline the median salary of a legislator across Canada in 2023
+map(single_year,"Legislators")
 
+# Returns an interactive animated map that outline the median salary of a legislator across Canada over the years.
+map(mul_year, "Legislators")
+```
 
 ## NA, Outlier and part of the data visulization
 
