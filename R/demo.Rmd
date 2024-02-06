@@ -51,3 +51,13 @@ process_outlier(new_dataset)
 ```{r}
 average_median_bar_plot(new_dataset)
 ```
+
+```{r}
+trend(mul_year,"overall")
+```
+
+```{r}
+trend(mul_year,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
+```
+
+
