@@ -17,7 +17,7 @@ This dataset published by the Canadian government institutions which means they 
 
 At first, users need to apply to their own API keys [here](https://docs.ckan.org/en/2.8/api/)
 
-### Installing the package
+## Installing the package
 
 ```r
 # install.packages("canwage")
@@ -34,6 +34,8 @@ library(canwage)
 # Set API key as an enviornment variable
 Sys.setenv(CKAN_API_KEY = "")
 ```
+
+## Functions
 
 ### Accessing the wage data
 
