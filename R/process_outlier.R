@@ -1,11 +1,29 @@
+#' @name process_outlier
+#'
+#' @title identify and process outliers
+#' 
+#' @description Function to identify outliers and draw plots
+#'
+#' @param dataset a data frame
+#' 
+#' @return list of occupations that have outliers and outlier visualization
+#'
+#' @export
 library(outliers)
 library(knitr)
 library("VIM")
 library(dplyr)
+library(tidyr)
 library(ggplot2)
-identify_outliers <- function(x){
-  iqr_score <- outliers::scores(x, type = "iqr")
-  return(iqr_score)
+library(scales)
+# source("average_median_bar_plot.R", encoding = 'UTF-8')
+year_input <- function(){
+  year_input <- readline(prompt = "Enter year:")
+  return(year_input)
+}
+job_title_number_input <- function(){
+  selected_noc_title_number <- as.numeric(readline(prompt = "select one job, input job row number \n"))
+  return(selected_noc_title_number)
 }
 process_outlier <- function(dataset){
   outliers_df <- dataset%>%
@@ -25,16 +43,16 @@ process_outlier <- function(dataset){
              select(occupation)
     )
   )
-  cat("There are outliers in these occupations:")
-  print(outlier_jobs)
+  cat("There are outliers in these occupations:", capture.output(as.list(outlier_jobs)), "\n")
+  #print(outlier_jobs)
  
   {
   job_title_number <- job_title_number_input()
   }
-  
   selected_job <- outlier_jobs[job_title_number,]
   cat("You have chosen:", selected_job, "\n")# "Accommodation Service Managers"
-  selected_outlier_df <- outlier_df[outlier_df$occupation==selected_job, ]
+  selected_outlier_df <- outliers_df[outliers_df$occupation==selected_job, ]
+  
   zero_data_percent <- selected_outlier_df%>%
     select(-occupation)%>%
     mutate_all(~ifelse(.==0, "Non-outlier", "Outlier"))%>%
@@ -46,6 +64,7 @@ process_outlier <- function(dataset){
     labs(title='Percentage of Outliers')+
     scale_y_continuous(labels=scales::percent_format(scale = 1))
   print(percent_plot)
+  
   #now draw a grid like plot
   outlier_dist <- selected_outlier_df %>%
     select(-occupation)%>%
@@ -67,6 +86,9 @@ process_outlier <- function(dataset){
          y = "Row Number")
   print(grid_plot)
 }
-#process_outlier(new_dataset)
+identify_outliers <- function(x){
+  iqr_score <- outliers::scores(x, type = "iqr")
+  return(iqr_score)
+}
 
   
