@@ -21,7 +21,7 @@ mul_year <- get_wage(c(2022, 2023))
 ```
 
 ```{r}
-list_occupations(mul_year, "science")
+list_occupations(mul_year, "teacher")
 ```
 
 ```{r}
