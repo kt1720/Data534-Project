@@ -33,15 +33,6 @@
 #' invalid_key_data <- get_wage(dataset = "2023", api_key = "invalid_key")
 #' # This will stop with an error message about the invalid API key.
 #' }
-if (!requireNamespace("httr2", quietly = TRUE)) {
-  install.packages("httr2")
-}
-if (!requireNamespace("tidyverse", quietly = TRUE)) {
-  install.packages("tidyverse")
-}
-library(tidyverse)
-library(httr2)
-
 
 get_wage <- function(dataset, api_key=Sys.getenv("CKAN_API_KEY")){
   if(!valid_api_key(api_key)){
