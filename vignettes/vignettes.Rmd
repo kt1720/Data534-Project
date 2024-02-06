@@ -14,9 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-
-```{r, include = F}
-Sys.setenv(CKAN_API_KEY = "")
+```{r include=FALSE}
+# Sys.setenv(CKAN_API_KEY = "your own API key")#"522bd094-7f62-4c3b-914d-bf6f0a20dc94"
+knitr::opts_chunk$set(echo = TRUE)
 source("../R/get_wage.R")
 source("../R/helpers.R")
 source("../R/list_occupations.R")
@@ -29,6 +29,9 @@ source("../R/wage_trend.R")
 ```{r, include = F}
 records=get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023"))
 records
+source('../Rprocess_NA.R')
+source("../Rprocess_outlier.R")
+source("../average_median_bar_plot.R")
 ```
 
 # Introduction
@@ -40,7 +43,7 @@ We use wage data from [Canada Open Data](https://open.canada.ca/data/en/dataset/
 
 This dataset published by the Canadian government institutions which means they are accurate, providing an overall reflection of the general state of the Canadian job market. Crawling from the website will deliver dataset to end users in JSON format.
 
-At first, users need to apply for their own API keys (here)[]
+At first, users need to apply to their own API keys [here](https://docs.ckan.org/en/2.8/api/)
 
 ### Installing the package
 
@@ -60,37 +63,65 @@ library(canwage)
 Sys.setenv(CKAN_API_KEY = "")
 ```
 
-# Accessing the wage data
+# Working with wage data
+
+## Data Overview
+
+In the following data, you will get the two data sets which have the same data structure. The first one is specific year data in 2014 and the other one is the whole observations we can get from the website.
+
+In the whole period data set, there are totally 63,748 observations and 7 variables.
+
+1.  **occupation**: There are total of 753 categories in the data set
+
+2.  **low_wage:** The lowest wage a person gains
+
+3.  **median_wage**：The median wage a person gains.
+
+4.  **high_wage：** The highest wage a person gains
+
+5.  **annual_wage_flag:** If this value equals to 0 which means daily payment, we would mutate all \*\_wage by timing 40 (40 hours per week) and then timing 52 (52 weeks per year). If equals to 1, represent annual wages
+
+    Note, feel free to use all \*\_all directly, because we have consolidated into annual payment
+
+6.  **province:** The 14 province in Canada
+
+7.  **year:** Year of recorded data
+
 **canwage** connects user to the wage data through the `get_wage` function. Since the API call will return the data in JSON format, `get_wage` will also handle the data cleaning to ensure the end user receive the data in a clean dataframe/tibble format.
 
 `get_wage` takes two parameters, the first parameter could be a single year integer or a vector of year integers depending on the year or years of data that the users want to access. The second parameter is the API key, the default is to get the CKAN_API_KEY inside the environment variable. 
 
-```{r get_wage_demo}
+```{r}
 # Returns a data frame with a single year data
-wage_2023 <- get_wage(2023)
+single_year <- get_wage(2014)
 
 # Returns a data frame with multiple years data
-wage_multi_years <- get_wage(c(2021, 2022, 2023))
+mul_year <- get_wage(c(2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022, 2023))
 ```
 
-## Wage Datasets
+```{r echo=FALSE}
+unique(tolower(mul_year$occupation))
+```
+
+```{r}
+unique(tolower(mul_year$province))
+```
+
+## Data exploration
+As you can see, the function `list_occupations` can identify relatively jobs based on input key words. For example, when you put the whole data set and "data", it will show you all occupations related to data, including "Data Entry Clerks","Database Analysts and Data Administrators","data scientists".
+
+```{r}
+unique(tolower(list_occupations(mul_year, "data")))
+```
+
 As previously mentioned, the Wage dataset from the Canada Open Data website only provides API access to the 2012-2016 and 2019-2023 dataset. Therefore, the year integer `get_wage` can accept would be 2012, 2013, 2014, 2015, 2016, 2019, 2020, 2021, 2022 and 2023. Any other integer passes into the function would return an error in the API call. And as data for future years becomes available, they will be added into the input parameter list.
 
 The dataset contains three numerical columns that display the minimum, median, and maximum wage estimates for different occupations. But since the data is coming from different government organizations, some of the data are displayed in annual salary and some are displayed as hourly wage. Therefore, in order to achieve a consistent unit in these three columns, I transformed all rows with hourly wage data by using it to multiply by 40 and then by 52, assuming 40 is the hours worked in a typical work week and 52 is the number of weeks in a year.
 
-### Occupatons
-Since the data is published by the government organization, all occupations are based on the National Occupational Classification. **canwage** provides a function, `list_occupations(dataset, str)`, to display all the occupations listed in the dataset that match the user input string.
-```{r occupation_demo}
-list_occupations(wage_2023, "data")
+The function `salary_range` can intuitively show the salary interval of specified province and occupation.
+```{r}
+salary_range(mul_year, "Judges", "ON") 
 ```
-
-### Salary range
-In addition to the list of occupation, the dataset also provides minimum and maximum salary estimates for most occupations listed in the dataset. Users can access this information by calling the `salary_range(dataset, job, province)` function. If the input dataframe only contains a single year of salary data, the function will return the respective minimum and maximum salary estimates for the specific job in the specific province. If the input dataframe contains multiple year of salary data, the function will return the average minimum and maximum salary estimates for the specific job in the specific provinces across all years.
-```{r, salary_range_demo}
-salary_range(wage_multi_years, "Secondary school teachers")
-```
-
-# Working with wage data
 
 ## Display the trend of wage based on provinces and occupations
 
@@ -101,7 +132,7 @@ In the first example, just need to put mandatory parameters(dataset, type=\` ove
 As the plot shows, there are two sub-plot used to interpret the overall trend. One is boxplot, apart from knowing the distribution of the wage,which you can also compare the number of samples in different provinces based on the size of the box; The other one is line plot which you can intuitively recognize the thread of different province.
 
 ```{r}
-trend(records,"overall")
+trend(mul_year,"overall")
 ```
 
 In the second example, just need to put mandatory parameters(dataset, `type=specific`), the other having used default parameters to draw.
@@ -109,7 +140,7 @@ In the second example, just need to put mandatory parameters(dataset, `type=spec
 As the plot shows, there are two facets describing the wage trend based on `provs=c("Ontario","British Columbia")` and `positions=c("Legislators")`. You can see the interval of wage of Legislators in Ontario is better than British Columbia. While British Columbia is more stable.
 
 ```{r}
-trend(records,"specific")
+trend(mul_year,"specific")
 ```
 
 The following examples are used to show the parameters you can change.
@@ -119,7 +150,7 @@ If you choose the `type=overall`, the only parameter you can change is `filte` w
 When we set `filte=200000`, it is easier to see the scenario of common people.
 
 ```{r}
-trend(records,"overall",filte=200000)
+trend(mul_year,"overall",filte=200000)
 ```
 
 If you choose the `type=specific`, you can also change the parameter `filte` based on your knowledge. In addition, you can also change the parameters province using `provs`and occupation using `positions`. Note both of these two parameters need to vector types.
@@ -127,22 +158,47 @@ If you choose the `type=specific`, you can also change the parameter `filte` bas
 As the plot shows, **Computer and information systems managers** is highest paid occupation, **Data entry clerks** gains lowest paid among four jobs within the range from 30000 to 60000. Data Scientists are just started occupation.
 
 ```{r}
-trend(records,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
+trend(mul_year,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
 ```
 
-
-### Wage Map
+## Wage Map
 For a more direct visualization of the median wage data for a specific occupation across Canada, **canwage** provides a `map(dataset, job)` function that shows an interactive Canadian map with the median wage information. If the dataset passed into the function only contains a single year of wage data, the plot will show a static map that displays the respective occupation's median salary across Canada. If the input dataset contains multiple years of wage data, the plot will instead show an animated map that displays the respective occupations's median salary across Canada over the years.  
 ```{r}
 # Returns an interactive static map that outline the median salary of a legislator across Canada in 2023
-map(wage_2023,"Legislators")
+map(single_year,"Legislators")
 
 # Returns an interactive animated map that outline the median salary of a legislator across Canada over the years.
-map(wage_multi_years, "Legislators")
+map(mul_year, "Legislators")
 ```
 
+## NA, Outlier and part of the data visulization
+
+In this part, I will address the dataset's missing values, outliers and the plot function to show a bar chart about average median salary of different provinces of chosen year and job title.
+
+We have already have the data set of multiple years' wage situations across Canada. The only parameter of this `process_NA()` function is the data set we get from calling the `get_wage()` above and it returns a data set without all of the missing values. Run the command below.
+
 ```{r}
-# library(covr)
-# cov <- package_coverage()
-# report(cov)
+new_dataset <- process_NA(mul_year)
+```
+
+As we see from the plots above, these are two plots about missing values. In the first plot, the color red represents missing values, x axis is the column names, namely variables and y axis represents the proportion of missing values. We can infer from the plot that all missing values are in the wage related columns, their respective proportions are all around 40%.
+
+In the second plot, the color red still represents missing values and the color grey represents data value. The darker the grey, the higher the value. This gives us a sense about where these missing values are located. It is safe to conclude from the plot that there is not much of a pattern of missing values in this data set. This might suggest that missing values are MCAR or MAR.
+
+Now We will look at the `process_outlier()` function. The only parameter here needed is the new data set we get from above without missing values. Run the command below.
+
+```{r warning=FALSE}
+process_outlier(new_dataset)
+```
+
+To identify outliers, I grouped data by the occupation and used the IQR method to identify any potential outliers and the occupation group they belong to. In a certain occupation category, wage related values are given a outlier score. The score 0 indicates the values are in the IQR range, and any value that is non-zero suggests an outlier.I listed alphabetically the occupations that have outliers in them among wage related variables. Note that almost all occupations have outlier wage values. To investigate into the outliers, package users are given the chance to choose which occupation they want to look into. Once the occupation is chosen, there will be two plots drawn.
+
+The first plot shows the percentage of outliers in each wage category and the second plot gives a rough grid representation of outliers' situation.
+
+To further look into the median wage salary of a certain job of different provinces in differet years, I will use the `average_median_bar_plot.R` script.
+
+The only parameter needed in the `average_bar_plot()` function is the new data set mentioned above. In this function, package users will be prompted twice. First, they will be prompted to enter the year of interest. In each year, the data set we get will have a list occupations whose wage salaries are accessible. Package users will be asked to choose one job that they are particularly attentive to. A bar plot will be shown about the average median salary in different provinces out of the data available. Example below I have chosen the year 2022 and the first job in the occupation list, which is Legislators.
+
+```{r}
+average_median_bar_plot(new_dataset)
 ```
