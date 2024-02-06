@@ -1,5 +1,5 @@
 ---
-title: "Test"
+title: "Demo"
 author: "Kyle Deng"
 date: "2024-01-31"
 output: html_document
@@ -13,6 +13,10 @@ source("helpers.R")
 source("list_occupations.R")
 source("salary_range.R")
 source("map.R")
+source('process_NA.R')
+source("process_outlier.R")
+source("average_median_bar_plot.R")
+source("wage_trend.R")
 ```
 
 ```{r}
@@ -25,7 +29,7 @@ list_occupations(mul_year, "teacher")
 ```
 
 ```{r}
-salary_range(mul_year, "Architecture and Science Managers", "ON") 
+salary_range(mul_year, ) 
 ```
 
 ```{r, warning=FALSE}
@@ -37,20 +41,11 @@ map(mul_year, "Computer programmers and interactive media developers")
 ```
 
 ```{r}
-source('process_NA.R')
-source("process_outlier.R")
-```
-
-```{r}
 new_dataset <- process_NA(mul_year)
 ```
 
 ```{r}
 process_outlier(new_dataset)
-```
-
-```{r}
-source("average_median_bar_plot.R")
 ```
 
 ```{r}
