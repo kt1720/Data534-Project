@@ -1,5 +1,8 @@
+#' @name get_wage
+#' @title A description of get_wage function.
+#' @description This is my function to get data.
 #' Access to Canadian wage data in Canada open data through the CKAN API
-#' 
+#'
 #' This function retrieves wage data from the Canada open data CKAN API. An API key is required for access, and users can provide a single year or a vector of years to retrieve data for multiple years. The function internally calls \code{get_wage_single_year} to fetch data for individual years.
 #'
 #' @param dataset A character string or vector of character strings representing the dataset identifier(s) for wage data.
@@ -10,7 +13,7 @@
 #' @source Wages data is reproduced and distributed on
 #' the Canada open data site and published by Employment and Social Development Canada
 #' (Wages 2012; 2013; 2016; 2019; 2020; 2021; 2022; 2023).
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -28,7 +31,12 @@
 #' invalid_key_data <- get_wage(dataset = "2023", api_key = "invalid_key")
 #' # This will stop with an error message about the invalid API key.
 #' }
-
+if (!requireNamespace("httr2", quietly = TRUE)) {
+  install.packages("httr2")
+}
+if (!requireNamespace("tidyverse", quietly = TRUE)) {
+  install.packages("tidyverse")
+}
 library(tidyverse)
 library(httr2)
 

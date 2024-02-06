@@ -1,0 +1,96 @@
+---
+title: "vignettes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignettes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Data534.wage)
+```
+
+```{r}
+Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
+source("../R/get_wage.R")
+source("../R/helpers.R")
+source("../R/list_occupations.R")
+source("../R/salary_range.R")
+source("../R/map.R")
+source("../R/wage_trend.R")
+# source("tests/testthat.R")
+```
+
+```{r}
+records=get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023"))
+records
+
+```
+
+# Introduction
+
+## API
+
+We use wage data from [Canada Open Data](https://open.canada.ca/data/en/dataset/adad580f-76b0-4502-bd05-20c125de9116) website in 2012-2016 and 2019-2023.
+
+This dataset published by the Canadian government institutions which means they are accurate, providing an overall reflection of the general state of the job market. Crawling from the website will deliver dataset to end users in JSON format.
+
+At first, users need to apply to their own API keys (here)[]
+
+# Working with wage data
+
+## Display the trend of wage based on provinces and occupations
+
+### Overall View
+
+In the first example, just need to put mandatory parameters(dataset, type=\` overall \`), the other having used default parameters to draw.
+
+As the plot shows, there are two sub-plot used to interpret the overall trend. One is boxplot, apart from knowing the distribution of the wage,which you can also compare the number of samples in different provinces based on the size of the box; The other one is line plot which you can intuitively recognize the thread of different province.
+
+```{r}
+trend(records,"overall")
+```
+
+In the second example, just need to put mandatory parameters(dataset, `type=specific`), the other having used default parameters to draw.
+
+As the plot shows, there are two facets describing the wage trend based on `provs=c("Ontario","British Columbia")` and `positions=c("Legislators")`. You can see the interval of wage of Legislators in Ontario is better than British Columbia. While British Columbia is more stable.
+
+```{r}
+trend(records,"specific")
+```
+
+The following examples are used to show the parameters you can change.
+
+If you choose the `type=overall`, the only parameter you can change is `filte` which means you can decide the outliers you based on your knowledge. By the way, the default value is 100000000.
+
+When we set `filte=200000`, it is easier to see the scenario of common people.
+
+```{r}
+trend(records,"overall",filte=200000)
+```
+
+If you choose the `type=specific`, you can also change the parameter `filte` based on your knowledge. In addition, you can also change the parameters province using `provs`and occupation using `positions`. Note both of these two parameters need to vector types.
+
+As the plot shows, **Computer and information systems managers** is highest paid occupation, **Data entry clerks** gains lowest paid among four jobs within the range from 30000 to 60000. Data Scientists are just started occupation.
+
+```{r}
+trend(records,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
+```
+
+```{r}
+# map(records,"Legislators")
+```
+
+```{r}
+# library(covr)
+# cov <- package_coverage()
+# report(cov)
+```

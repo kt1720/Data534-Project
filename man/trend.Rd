@@ -2,12 +2,13 @@
 % Please edit documentation in R/wage_trend.R
 \name{trend}
 \alias{trend}
-\title{This is a sample function}
-\usage{
-trend(type, provs = c("ON", "BC"), positions = c("Data_entry_clerks"))
-}
+\title{A description of get_wage function.}
 \arguments{
+\item{records}{The data user put in}
+
 \item{type}{A choice using "overall" or "specific"}
+
+\item{filte}{to remove the outliers}
 
 \item{provs}{a value or vector about province}
 
@@ -17,8 +18,8 @@ trend(type, provs = c("ON", "BC"), positions = c("Data_entry_clerks"))
 One or two plot
 }
 \description{
-This is a sample function
+This is my function to plot the trend.
 }
 \examples{
-trend("overall")
+trend(get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023")),type="overall")
 }
