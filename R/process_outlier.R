@@ -16,7 +16,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(scales)
-#source("average_median_bar_plot.R", encoding = 'UTF-8')
+# source("average_median_bar_plot.R", encoding = 'UTF-8')
 year_input <- function(){
   year_input <- readline(prompt = "Enter year:")
   return(year_input)
