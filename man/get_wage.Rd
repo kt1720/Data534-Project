@@ -2,6 +2,7 @@
 % Please edit documentation in R/get_wage.R
 \name{get_wage}
 \alias{get_wage}
+
 \title{Access to Canadian wage data in Canada open data through the CKAN API}
 \source{
 Wages data is reproduced and distributed on
@@ -10,6 +11,7 @@ the Canada open data site and published by Employment and Social Development Can
 }
 \usage{
 get_wage(dataset, api_key = Sys.getenv("CKAN_API_KEY"))
+
 }
 \arguments{
 \item{dataset}{A character string or vector of character strings representing the dataset identifier(s) for wage data.}
@@ -20,9 +22,11 @@ get_wage(dataset, api_key = Sys.getenv("CKAN_API_KEY"))
 A tibble containing the wage data for the specified year(s).
 }
 \description{
+
 This function retrieves wage data from the Canada open data CKAN API. An API key is required for access,
 and users can provide a single year or a vector of years to retrieve data for multiple years.
 The function internally calls \code{get_wage_single_year} to fetch data for individual years.
+
 }
 \examples{
 # Retrieve wage data for a single year

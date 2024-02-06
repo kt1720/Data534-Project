@@ -21,5 +21,5 @@ One or two plot
 This is my function to plot the trend.
 }
 \examples{
-trend("overall")
+trend(get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023")),type="overall")
 }
