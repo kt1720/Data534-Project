@@ -1,30 +1,50 @@
-name: R check
-
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches:
-      - main
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: test-coverage
 
 jobs:
-  build:
+  test-coverage:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-    - name: Set up R
-      uses: r-lib/actions/setup-r@v1
-      with:
-        r-version: 4.1
+      - uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        install.packages(c("remotes", "devtools", "testthat"))
-        remotes::install_github("r-lib/covr")
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
 
-    - name: Build package
-      run: R CMD build .
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr
+          needs: coverage
 
-    - name: Check package
-      run: R CMD check *tar.gz
+      - name: Test coverage
+        run: |
+          covr::codecov(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP")), "Data534-Project")
+          )
+        shell: Rscript {0}
 
-    - name: Run code coverage
-      run: R -e 'covr::codecov()'
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
