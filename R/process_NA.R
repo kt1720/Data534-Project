@@ -1,12 +1,8 @@
-library(outliers)
-#' process_NA.R
+#' @name process_NA
 #'
-#' identify and process missing values
+#' @title identify and process missing values
 #'
-#' @author Jade Yu
-#' @date 2024-02-01
-#'
-#' Function to identify NAs and draw plots
+#' @description Function to identify NAs and draw plots
 #'
 #' @param dataset a data frame
 #' 
@@ -17,6 +13,7 @@ library(knitr)
 library("VIM")
 library(dplyr)
 library(ggplot2)
+library(outliers)
 process_NA <- function(dataset){
   par(plt = c(0, 1, 0, 1))
   if(any(is.na(dataset))==TRUE){

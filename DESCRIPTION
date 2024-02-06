@@ -1,23 +1,33 @@
-Package: wagetrend
-Title: Crawl Data using API and do some visualization
+Package: Data534.wage
+Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    person("Han", "Chen", , "first.last@example.com", role = c("aut", "cre"),
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: You can choose different parameters of provinces and job titles to specific the wage trend.
+Description: What the package does (one paragraph).
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Imports:
-    ggplot2,
-    httr2,
-    rnaturalearth,
-    sf,
-    tidyverse,
-    patchwork,
-    plotly
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
+Imports:
+  plotly,
+  sf,
+  rnaturalearth,
+  tidyverse,
+  patchwork,
+  httr2,
+  outliers,
+  knitr,
+  VIM,
+  testthat,
+  magick,
+  imager,
+  gridExtra
+

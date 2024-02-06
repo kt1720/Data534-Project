@@ -1,20 +1,17 @@
-#' average_median_bar_plot.R
-#'
-#' draw plot of a chosen year and occupation
-#'
-#' @author Jade Yu
-#' @date 2024-02-01
-#'
-#' Function to draw plots
+#' @name average_median_bar_plot
+#' 
+#' @title average median bar plot drawing
+#' 
+#' @description draw plot of a chosen year and occupation
 #'
 #' @param new_dataset a data frame
 #' 
 #' @return plots
 #'
 #' @export
-
 library(ggplot2)
 library(dplyr)
+library(lubridate)
 year_input <- function(){
   year_input <- readline(prompt = "Enter year:")
   return(year_input)

@@ -1,11 +1,8 @@
-#' process_outlier.R
+#' @name process_outlier
 #'
-#' identify and process outliers
-#'
-#' @author Jade Yu
-#' @date 2024-02-01
-#'
-#' Function to identify outliers and draw plots
+#' @title identify and process outliers
+#' 
+#' @description Function to identify outliers and draw plots
 #'
 #' @param dataset a data frame
 #' 
@@ -16,6 +13,7 @@ library(outliers)
 library(knitr)
 library("VIM")
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(scales)
 # source("average_median_bar_plot.R", encoding = 'UTF-8')
