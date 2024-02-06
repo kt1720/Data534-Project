@@ -1,0 +1,53 @@
+---
+title: "Demo"
+author: "Kyle Deng"
+date: "2024-01-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Sys.setenv(CKAN_API_KEY = )
+source("get_wage.R")
+source("helpers.R")
+source("list_occupations.R")
+source("salary_range.R")
+source("map.R")
+source('process_NA.R')
+source("process_outlier.R")
+source("average_median_bar_plot.R")
+source("wage_trend.R")
+```
+
+```{r}
+single_year <- get_wage(2023)
+mul_year <- get_wage(c(2022, 2023))
+```
+
+```{r}
+list_occupations(mul_year, "teacher")
+```
+
+```{r}
+salary_range(mul_year, ) 
+```
+
+```{r, warning=FALSE}
+map(single_year, "Legislators" )
+```
+
+```{r, warning=FALSE}
+map(mul_year, "Computer programmers and interactive media developers")
+```
+
+```{r}
+new_dataset <- process_NA(mul_year)
+```
+
+```{r}
+process_outlier(new_dataset)
+```
+
+```{r}
+average_median_bar_plot(new_dataset)
+```
