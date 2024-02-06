@@ -1,4 +1,6 @@
-#' This is a sample function
+#' @title A description of get_wage function.
+#' @name trend
+#' @description This is my function to plot the trend.
 #' @param records The data user put in
 #' @param type A choice using "overall" or "specific"
 #' @param filte to remove the outliers
@@ -7,6 +9,7 @@
 #' @return One or two plot
 #' @examples
 #' trend("overall")
+#' @export 
 
 # check package "tidyverse","patchwork"
 if (!requireNamespace("tidyverse", quietly = TRUE)) {
