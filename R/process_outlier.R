@@ -1,11 +1,8 @@
-#' process_outlier.R
+#' @name process_outlier
 #'
-#' identify and process outliers
-#'
-#' @author Jade Yu
-#' @date 2024-02-01
-#'
-#' Function to identify outliers and draw plots
+#' @title identify and process outliers
+#' 
+#' @description Function to identify outliers and draw plots
 #'
 #' @param dataset a data frame
 #' 
@@ -16,9 +13,18 @@ library(outliers)
 library(knitr)
 library("VIM")
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(scales)
-source("average_median_bar_plot.R", encoding = 'UTF-8')
+#source("average_median_bar_plot.R", encoding = 'UTF-8')
+year_input <- function(){
+  year_input <- readline(prompt = "Enter year:")
+  return(year_input)
+}
+job_title_number_input <- function(){
+  selected_noc_title_number <- as.numeric(readline(prompt = "select one job, input job row number \n"))
+  return(selected_noc_title_number)
+}
 process_outlier <- function(dataset){
   outliers_df <- dataset%>%
     group_by(occupation)%>%
