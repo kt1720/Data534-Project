@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4
@@ -25,6 +26,18 @@ jobs:
         with:
           extra-packages: any::covr
           needs: coverage
+
+      - name: Load functions
+        run: |
+          source("R/get_wage.R")
+          source("R/helpers.R")
+          source("R/list_occupations.R")
+          source("R/salary_range.R")
+          source("R/map.R")
+          source('R/process_NA.R')
+          source("R/process_outlier.R")
+          source("R/average_median_bar_plot.R")
+          source("R/wage_trend.R")
 
       - name: Test coverage
         run: |
