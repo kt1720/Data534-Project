@@ -83,10 +83,49 @@ map(wage_2023,"Legislators")
 # Returns an interactive animated map that outline the median salary of a legislator across Canada over the years.
 map(wage_multi_years, "Legislators")
 ```
+### Display the trend of wage based on provinces and occupations
+
+#### Overall View
+
+In the first example, just need to put mandatory parameters(dataset, type=\` overall \`), the other having used default parameters to draw.
+
+As the plot shows, there are two sub-plot used to interpret the overall trend. One is boxplot, apart from knowing the distribution of the wage,which you can also compare the number of samples in different provinces based on the size of the box; The other one is line plot which you can intuitively recognize the thread of different province.
+
+```{r}
+trend(mul_year,"overall")
+```
+
+#### Specific View
+
+In the second example, just need to put mandatory parameters(dataset, `type=specific`), the other having used default parameters to draw.
+
+As the plot shows, there are two facets describing the wage trend based on `provs=c("Ontario","British Columbia")` and `positions=c("Legislators")`. You can see the interval of wage of Legislators in Ontario is better than British Columbia. While British Columbia is more stable.
+
+```{r}
+trend(mul_year,"specific")
+```
+
+The following examples are used to show the parameters you can change.
+
+If you choose the `type=overall`, the only parameter you can change is `filte` which means you can decide the outliers you based on your knowledge. By the way, the default value is 100000000.
+
+When we set `filte=200000`, it is easier to see the scenario of common people.
+
+```{r}
+trend(mul_year,"overall",filte=200000)
+```
+
+If you choose the `type=specific`, you can also change the parameter `filte` based on your knowledge. In addition, you can also change the parameters province using `provs`and occupation using `positions`. Note both of these two parameters need to vector types.
+
+As the plot shows, **Computer and information systems managers** is highest paid occupation, **Data entry clerks** gains lowest paid among four jobs within the range from 30000 to 60000. Data Scientists are just started occupation.
+
+```{r}
+trend(mul_year,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
+```
 
 ## Vignettes
 
-*[canwage vignettes]()
+*[canwage vignettes]("vignettes/vignettes.Rmd")
 
 ## License
 
