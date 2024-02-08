@@ -26,6 +26,7 @@ job_title_number_input <- function(){
   return(selected_noc_title_number)
 }
 process_outlier <- function(dataset){
+  dataset$occupation <- tolower(dataset$occupation)
   outliers_df <- dataset%>%
     group_by(occupation)%>%
     reframe(
@@ -34,7 +35,7 @@ process_outlier <- function(dataset){
       median_wage_outlier_score = scores(median_wage, type='iqr')
     )%>%
     ungroup()
-  
+
   # outliers_df%>%
   #   filter(!(low_wage_outlier_score==0 & median_wage_outlier_score==0 & high_wage_outlier_score==0))
   outlier_jobs <- data.frame(
@@ -90,5 +91,3 @@ identify_outliers <- function(x){
   iqr_score <- outliers::scores(x, type = "iqr")
   return(iqr_score)
 }
-
-  
