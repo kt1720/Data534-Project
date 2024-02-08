@@ -38,6 +38,7 @@ jobs:
           source("R/process_outlier.R")
           source("R/average_median_bar_plot.R")
           source("R/wage_trend.R")
+        shell: Rscript {0}
 
       - name: Test coverage
         run: |
