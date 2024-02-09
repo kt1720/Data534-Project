@@ -2,7 +2,7 @@
 title: "canwage"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vignettes}
+  %\VignetteIndexEntry{canwage}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
