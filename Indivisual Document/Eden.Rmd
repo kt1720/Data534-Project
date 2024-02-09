@@ -1,0 +1,67 @@
+---
+title: "Eden_Daily_report"
+output: html_notebook
+---
+
+# Project Daily Report
+
+## Role in the Team
+
+I am responsible for creating wage trend plot to give main idea depending on time and space. 1. This can help users to get the overview about our dataset 2. It can give information about special occupations in different provinces which can help user to better choose the **job location** and know more about the **economic situation** in the past few years.
+
+## Development Decisions
+
+-   Chose to use wage data set. Reason:
+    -   As graduate students we need to understand more about the job market
+    -   It can also help people who is finding job or looking for better job opportunity
+    -   It will show the economic circle and wealth gap
+-   Consider using province, year, \*\_wage index
+    -   Our group thought these indexes are persuasive and key to the plot
+    -   All of us use different ways to clean the data, compring with the format we decide to use Kyle's as template to draw our picture
+
+## GitHub Commit Links
+
+-   [Commits](%22https://github.com/kt1720/canwage/graphs/commit-activity%22)
+
+## Today's Work Summary - [Feb 1, 2023]
+
+-   [x] Propose the idea of making a wage data from ckan wesite
+-   [x] Try to scrape data
+-   [x] Perform data wrangling
+
+## Today's Work Summary - [Feb 2, 2023]
+
+-   [x] Get main idea about the details of the plots
+
+## Today's Work Summary - [Feb 3, 2023]
+
+-   [x] Make plot to draw the "overall" part plots
+    -   [x] Something update in vignettes.
+
+## Today's Work Summary - [Feb 4, 2023]
+
+-   [x] Make plot to draw the "specific" part plots
+    -   [x] Something update in vignettes.
+-   [x] Prepare for the presentation slides
+
+## Today's Work Summary - [Feb 5, 2023]
+
+-   [x] Writing test function to check the exsistence of the plot
+    -   [x] Something update in vignettes.
+
+## Today's Work Summary - [Feb 6, 2023]
+
+-   [x] Landscape the plot(add more details and ajudt the plot style)
+    -   [x] Something update in vignettes.
+
+## Today's Work Summary - [Feb 7, 2023]
+
+-   [x] Update the vignette documents continually
+-   [x] Adjust the format the meet the requirements of CKAN
+
+## Today's Work Summary - [Feb 8, 2023]
+
+-   [x] Prepare the needed documents
+-   [x] Publish to the CKAN
+
+![](images/微信图片_20240208214326.png){width="300"}
