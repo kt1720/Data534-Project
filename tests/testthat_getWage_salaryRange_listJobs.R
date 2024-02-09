@@ -1,5 +1,5 @@
 library("canwage")
-#Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
+Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")
 ################ Test Data #####################################################
 judge_on_salary_range <- tibble::tibble(minimum_salary = 360543.8, maximum_salary = 379444.2)
 ds_bc_salary_range <- tibble::tibble(minimum_salary = 47153.6	, maximum_salary = 173804.8)
