@@ -18,7 +18,7 @@ Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/).
 #### Expected Behavior:
 
 - Explain the behavior you expected to see and why.
-  
+
 #### Configuration and Environment:
 
 - OS name and version.
@@ -30,6 +30,7 @@ Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/).
 Follow these steps to submit suggestions for new features or improvements. This helps maintainers and the community understand your suggestion.
 
 #### Before Creating an Enhancement Suggestion
+
 Check these points before creating an enhancement suggestion:
 
 - **Latest Version:** Ensure you're using the latest version of canwage.
@@ -49,6 +50,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 8. Specify your OS name and version.
 
 ### Code Contributions
+
 1. Fork and clone the repository to your local machine.
 2. Create a new branch: `git checkout -b feature-branch-name`.
 3. Make your changes.

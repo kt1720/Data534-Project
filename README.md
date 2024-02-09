@@ -119,6 +119,7 @@ map(wage_2023,"Legislators")
 # Returns an interactive animated map that outline the median salary of a legislator across Canada over the years.
 map(wage_multi_years, "Legislators")
 ```
+
 ### Display the trend of wage based on provinces and occupations
 
 #### Overall View
@@ -157,37 +158,6 @@ As the plot shows, **Computer and information systems managers** is highest paid
 
 ```{r}
 trend(mul_year,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
-```
-### NA, Outlier and part of the data visulization
-
-In this part, I will address the dataset's missing values, outliers and the plot function to show a bar chart about average median salary of different provinces of chosen year and job title.
-
-We have already have the data set of multiple years' wage situations across Canada. The only parameter of this `process_NA()` function is the data set we get from calling the `get_wage()` above and it returns a data set without all of the missing values. Run the command below.
-
-```{r}
-new_dataset <- process_NA(mul_year)
-```
-
-As we see from the plots above, these are two plots about missing values. In the first plot, the color red represents missing values, x axis is the column names, namely variables and y axis represents the proportion of missing values. We can infer from the plot that all missing values are in the wage related columns, their respective proportions are all around 40%.
-
-In the second plot, the color red still represents missing values and the color grey represents data value. The darker the grey, the higher the value. This gives us a sense about where these missing values are located. It is safe to conclude from the plot that there is not much of a pattern of missing values in this data set. This might suggest that missing values are MCAR or MAR.
-
-Now We will look at the `process_outlier()` function. The only parameter here needed is the new data set we get from above without missing values. Run the command below.
-
-```{r warning=FALSE}
-process_outlier(new_dataset)
-```
-
-To identify outliers, I grouped data by the occupation and used the IQR method to identify any potential outliers and the occupation group they belong to. In a certain occupation category, wage related values are given a outlier score. The score 0 indicates the values are in the IQR range, and any value that is non-zero suggests an outlier.I listed alphabetically the occupations that have outliers in them among wage related variables. Note that almost all occupations have outlier wage values. To investigate into the outliers, package users are given the chance to choose which occupation they want to look into. Once the occupation is chosen, there will be two plots drawn.
-
-The first plot shows the percentage of outliers in each wage category and the second plot gives a rough grid representation of outliers' situation.
-
-To further look into the median wage salary of a certain job of different provinces in differet years, I will use the `average_median_bar_plot.R` script.
-
-The only parameter needed in the `average_bar_plot()` function is the new data set mentioned above. In this function, package users will be prompted twice. First, they will be prompted to enter the year of interest. In each year, the data set we get will have a list occupations whose wage salaries are accessible. Package users will be asked to choose one job that they are particularly attentive to. A bar plot will be shown about the average median salary in different provinces out of the data available. Example below I have chosen the year 2022 and the first job in the occupation list, which is Legislators.
-
-```{r}
-average_median_bar_plot(new_dataset)
 ```
 
 ## Vignettes
