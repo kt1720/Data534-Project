@@ -162,7 +162,7 @@ trend(wage_multi_years,"specific",provs=c("Alberta","British Columbia","Ontario"
 
 ## Vignettes
 
-*[canwage vignettes]("vignettes/vignettes.Rmd")
+*[canwage vignettes](https://github.com/kt1720/canwage/blob/main/vignettes/vignettes.Rmd)
 
 ## License
 
