@@ -7,16 +7,9 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-# Sys.setenv(CKAN_API_KEY = )
-source("get_wage.R")
-source("helpers.R")
-source("list_occupations.R")
-source("salary_range.R")
-source("map.R")
-source('process_NA.R')
-source("process_outlier.R")
-source("average_median_bar_plot.R")
-source("wage_trend.R")
+# Sys.setenv(CKAN_API_KEY = "")
+# devtools::install_github("kt1720/canwage")
+library(canwage)
 ```
 
 ```{r}

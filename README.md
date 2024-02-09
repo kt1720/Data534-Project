@@ -32,7 +32,7 @@ Or alternatively, download the development version of the package from Github.
 
 ```r
 # install.packages("devtools")
-remotes::install("kt1720/canwage")
+remotes::install_github("kt1720/canwage")
 library(canwage)
 # Set API key as an enviornment variable
 Sys.setenv(CKAN_API_KEY = "")

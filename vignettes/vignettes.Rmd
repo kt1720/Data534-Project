@@ -17,21 +17,6 @@ knitr::opts_chunk$set(
 ```{r include=FALSE}
 # Sys.setenv(CKAN_API_KEY = "your own API key")#"522bd094-7f62-4c3b-914d-bf6f0a20dc94"
 knitr::opts_chunk$set(echo = TRUE)
-source("../R/get_wage.R")
-source("../R/helpers.R")
-source("../R/list_occupations.R")
-source("../R/salary_range.R")
-source("../R/map.R")
-source("../R/wage_trend.R")
-# source("tests/testthat.R")
-```
-
-```{r, include = F}
-records=get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023"))
-records
-source('../Rprocess_NA.R')
-source("../Rprocess_outlier.R")
-source("../average_median_bar_plot.R")
 ```
 
 # Introduction
@@ -55,12 +40,13 @@ Sys.setenv(CKAN_API_KEY = "")
 ```
 
 Or alternatively, download the development version of the package from Github.
-```
+```{r}
 # install.packages("devtools")
-remotes::install("kt1720/canwage")
+# library(devtools)
+# remotes::install_github("kt1720/canwage")
 library(canwage)
 # Set API key as an enviornment variable
-Sys.setenv(CKAN_API_KEY = "")
+# Sys.setenv(CKAN_API_KEY = "")
 ```
 
 # Working with wage data
