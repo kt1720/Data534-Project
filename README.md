@@ -32,7 +32,7 @@ Or alternatively, download the development version of the package from Github.
 
 ```r
 # install.packages("devtools")
-remotes::install("kt1720/canwage")
+remotes::install_github("kt1720/canwage")
 library(canwage)
 # Set API key as an enviornment variable
 Sys.setenv(CKAN_API_KEY = "")
@@ -81,7 +81,7 @@ salary_range(wage_multi_years, "Secondary school teachers")
 In this part, we addressed the dataset's missing values to give package users an insight into the raw datasets from the Canadian government. We have already have the data set of multiple years' wage situations across Canada. The only parameter of this `process_NA()` function is the data set we get from calling the `get_wage()` above and it returns a data set without all of the missing values.
 
 ```r
-new_dataset <- process_NA(mul_year)
+new_dataset <- process_NA(wage_multi_years)
 ```
 
 Two plots about missing values will be generated. In the first plot, the color red represents missing values, x axis is the column names, namely variables and y axis represents the proportion of missing values. We can infer from the plot that all missing values are in the wage related columns, their respective proportions are all around 40%.
@@ -129,7 +129,7 @@ In the first example, just need to put mandatory parameters(dataset, type=\` ove
 As the plot shows, there are two sub-plot used to interpret the overall trend. One is boxplot, apart from knowing the distribution of the wage,which you can also compare the number of samples in different provinces based on the size of the box; The other one is line plot which you can intuitively recognize the thread of different province.
 
 ```{r}
-trend(mul_year,"overall")
+trend(wage_multi_years,"overall")
 ```
 
 #### Specific View
@@ -139,7 +139,7 @@ In the second example, just need to put mandatory parameters(dataset, `type=spec
 As the plot shows, there are two facets describing the wage trend based on `provs=c("Ontario","British Columbia")` and `positions=c("Legislators")`. You can see the interval of wage of Legislators in Ontario is better than British Columbia. While British Columbia is more stable.
 
 ```{r}
-trend(mul_year,"specific")
+trend(wage_multi_years,"specific")
 ```
 
 The following examples are used to show the parameters you can change.
@@ -149,7 +149,7 @@ If you choose the `type=overall`, the only parameter you can change is `filte` w
 When we set `filte=200000`, it is easier to see the scenario of common people.
 
 ```{r}
-trend(mul_year,"overall",filte=200000)
+trend(wage_multi_years,"overall",filte=200000)
 ```
 
 If you choose the `type=specific`, you can also change the parameter `filte` based on your knowledge. In addition, you can also change the parameters province using `provs`and occupation using `positions`. Note both of these two parameters need to vector types.
@@ -157,7 +157,7 @@ If you choose the `type=specific`, you can also change the parameter `filte` bas
 As the plot shows, **Computer and information systems managers** is highest paid occupation, **Data entry clerks** gains lowest paid among four jobs within the range from 30000 to 60000. Data Scientists are just started occupation.
 
 ```{r}
-trend(mul_year,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
+trend(wage_multi_years,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec"),positions=c("Data entry clerks","Database analysts and data administrators","Data scientists","Computer and information systems managers"))
 ```
 
 ## Vignettes
