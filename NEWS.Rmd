@@ -1,0 +1,14 @@
+---
+title: "NEWS.md"
+author: "Eden"
+date: '20240209'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Changelog
+
+## Version 1.0.0 (2024-02-08)

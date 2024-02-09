@@ -50,7 +50,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       theme_minimal()
     #combine them
     combined_plot <- grid.arrange(boxplot, lineplot, ncol = 2)
-    ggsave("overall_wage_trend.png", plot = combined_plot, width = 8, height = 6, dpi = 300)
+    #ggsave("overall_wage_trend.png", plot = combined_plot, width = 8, height = 6, dpi = 300)
     plot(combined_plot)}
   #customerized plot
   else if (type=="specific"){
@@ -77,7 +77,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
     #   facet_grid(~province)+
     #   theme_minimal()
 
-    ggsave("special_wage_trend.png", plot = line, width = 8, height = 6, dpi = 300)
+    #ggsave("special_wage_trend.png", plot = line, width = 8, height = 6, dpi = 300)
     plot(line)
   }
 
