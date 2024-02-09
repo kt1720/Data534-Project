@@ -3,8 +3,8 @@ Title: This is a canwage package
 Version: 1.0.0
 Authors@R: 
     person("Eden", "Chen", email="hanchen0210@gmail.com", role = c("aut", "cre"))
-    person("Jade", "Yu", email="yujinxin01@gmail.com", role=c("aut", "cre"))
     person("Kyle", "Deng", email="kyledeng97@gmail.com", role=c("aut", "cre"))
+    person("Jade", "Yu", email="yujinxin01@gmail.com", role=c("aut", "cre"))
 Description: Use data analysis and visulizations to provide insights into the wage data from the Canadian government in the last ten years.
 License: MIT
 Encoding: UTF-8

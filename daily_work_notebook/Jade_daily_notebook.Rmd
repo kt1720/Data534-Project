@@ -1,0 +1,52 @@
+---
+title: "daily_notebook"
+author: "Jade Yu"
+date: "2024-01-30"
+output: pdf_document
+---
+
+01/29/2024
+
+data cleaning, outliers detecting and removal;
+
+<https://github.com/kt1720/Data534-Project/commit/791583b69493c343747be5fe8cb34bf70c7c5af0>
+
+01/31/2024
+
+improved existing code
+
+add some inline comments and function tests
+
+<https://github.com/kt1720/canwage/tree/362d71eb7eb12cf9877c76ff2091f4c25b226020>
+
+02/01/2024
+
+set up the R package structure to make the structure clearer
+
+<https://github.com/kt1720/canwage/tree/0acffdb17bd15dcc5882a1fc73cc2b2e986ed02c>
+
+02/02/2024
+
+add new function and according test
+
+improved the function that generates median salary plot
+
+<https://github.com/kt1720/canwage/tree/4526840833d47d78f24f3e942e7f8db04af2fbb3>
+
+02/03/2024
+
+add function documentation
+
+<https://github.com/kt1720/canwage/tree/84509cb6b695adba431a650138bfa850fe42436e>
+
+02/05/2024
+
+vignettes and readme.md
+
+<https://github.com/kt1720/canwage/tree/b8b4cfb11ecccf3c7346c98bc4f12ba8fe049e7f>
+
+02/08/2024
+
+modified DESCRIPTION and NAMESPACE
+
+<https://github.com/kt1720/canwage/tree/34f6ae02f563f430fc1edbafab43f240b442734a>

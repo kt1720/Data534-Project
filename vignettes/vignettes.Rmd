@@ -29,9 +29,9 @@ source("../R/wage_trend.R")
 ```{r, include = F}
 records=get_wage(c("2012","2013","2014","2015","2016","2019","2020","2021","2022","2023"))
 records
-source('../Rprocess_NA.R')
-source("../Rprocess_outlier.R")
-source("../average_median_bar_plot.R")
+source('../R/process_NA.R')
+source("../R/process_outlier.R")
+source("../R/average_median_bar_plot.R")
 ```
 
 # Introduction
@@ -206,5 +206,5 @@ To further look into the median wage salary of a certain job of different provin
 The only parameter needed in the `average_bar_plot()` function is the new data set mentioned above. In this function, package users will be prompted twice. First, they will be prompted to enter the year of interest. In each year, the data set we get will have a list occupations whose wage salaries are accessible. Package users will be asked to choose one job that they are particularly attentive to. A bar plot will be shown about the average median salary in different provinces out of the data available. Example below I have chosen the year 2022 and the first job in the occupation list, which is Legislators.
 
 ```{r}
-average_median_bar_plot(new_dataset)
+#average_median_bar_plot(new_dataset)
 ```
