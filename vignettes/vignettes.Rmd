@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r include=FALSE}
-# Sys.setenv(CKAN_API_KEY = "your own API key")#"522bd094-7f62-4c3b-914d-bf6f0a20dc94"
+Sys.setenv(CKAN_API_KEY = "522bd094-7f62-4c3b-914d-bf6f0a20dc94")#"522bd094-7f62-4c3b-914d-bf6f0a20dc94"
 knitr::opts_chunk$set(echo = TRUE)
 source("../R/get_wage.R")
 source("../R/helpers.R")
@@ -35,7 +35,8 @@ source("../average_median_bar_plot.R")
 ```
 
 # Introduction
-As job seekers, we often find it difficult to obtain salary information on the role we are applying to. Therefore, having access to reliable salary information on different jobs can not only help us in deciding whether to apply for a specific role, but can also be helpful in salary negotiation after receiving an offer. With this mission in mind, the **canwage** package will serve as an API wrapper and provide functionality to users to access annual wage data published by Canada Open Data through API access. 
+
+As job seekers, we often find it difficult to obtain salary information on the role we are applying to. Therefore, having access to reliable salary information on different jobs can not only help us in deciding whether to apply for a specific role, but can also be helpful in salary negotiation after receiving an offer. With this mission in mind, the **canwage** package will serve as an API wrapper and provide functionality to users to access annual wage data published by Canada Open Data through API access.
 
 ## API
 
@@ -47,7 +48,7 @@ At first, users need to apply to their own API keys [here](https://docs.ckan.org
 
 ### Installing the package
 
-```
+```         
 # install.packages("canwage")
 library(canwage)
 # Set API key as an enviornment variable
@@ -55,7 +56,8 @@ Sys.setenv(CKAN_API_KEY = "")
 ```
 
 Or alternatively, download the development version of the package from Github.
-```
+
+```         
 # install.packages("devtools")
 remotes::install("kt1720/canwage")
 library(canwage)
@@ -89,7 +91,7 @@ In the whole period data set, there are totally 63,748 observations and 7 variab
 
 **canwage** connects user to the wage data through the `get_wage` function. Since the API call will return the data in JSON format, `get_wage` will also handle the data cleaning to ensure the end user receive the data in a clean dataframe/tibble format.
 
-`get_wage` takes two parameters, the first parameter could be a single year integer or a vector of year integers depending on the year or years of data that the users want to access. The second parameter is the API key, the default is to get the CKAN_API_KEY inside the environment variable. 
+`get_wage` takes two parameters, the first parameter could be a single year integer or a vector of year integers depending on the year or years of data that the users want to access. The second parameter is the API key, the default is to get the CKAN_API_KEY inside the environment variable.
 
 ```{r}
 # Returns a data frame with a single year data
@@ -108,6 +110,7 @@ unique(tolower(mul_year$province))
 ```
 
 ## Data exploration
+
 As you can see, the function `list_occupations` can identify relatively jobs based on input key words. For example, when you put the whole data set and "data", it will show you all occupations related to data, including "Data Entry Clerks","Database Analysts and Data Administrators","data scientists".
 
 ```{r}
@@ -119,6 +122,7 @@ As previously mentioned, the Wage dataset from the Canada Open Data website only
 The dataset contains three numerical columns that display the minimum, median, and maximum wage estimates for different occupations. But since the data is coming from different government organizations, some of the data are displayed in annual salary and some are displayed as hourly wage. Therefore, in order to achieve a consistent unit in these three columns, I transformed all rows with hourly wage data by using it to multiply by 40 and then by 52, assuming 40 is the hours worked in a typical work week and 52 is the number of weeks in a year.
 
 The function `salary_range` can intuitively show the salary interval of specified province and occupation.
+
 ```{r}
 salary_range(mul_year, "Judges", "ON") 
 ```
@@ -162,7 +166,9 @@ trend(mul_year,"specific",provs=c("Alberta","British Columbia","Ontario","Quebec
 ```
 
 ## Wage Map
-For a more direct visualization of the median wage data for a specific occupation across Canada, **canwage** provides a `map(dataset, job)` function that shows an interactive Canadian map with the median wage information. If the dataset passed into the function only contains a single year of wage data, the plot will show a static map that displays the respective occupation's median salary across Canada. If the input dataset contains multiple years of wage data, the plot will instead show an animated map that displays the respective occupations's median salary across Canada over the years.  
+
+For a more direct visualization of the median wage data for a specific occupation across Canada, **canwage** provides a `map(dataset, job)` function that shows an interactive Canadian map with the median wage information. If the dataset passed into the function only contains a single year of wage data, the plot will show a static map that displays the respective occupation's median salary across Canada. If the input dataset contains multiple years of wage data, the plot will instead show an animated map that displays the respective occupations's median salary across Canada over the years.
+
 ```{r}
 # Returns an interactive static map that outline the median salary of a legislator across Canada in 2023
 map(single_year,"Legislators")
@@ -188,7 +194,7 @@ In the second plot, the color red still represents missing values and the color 
 Now We will look at the `process_outlier()` function. The only parameter here needed is the new data set we get from above without missing values. Run the command below.
 
 ```{r warning=FALSE}
-process_outlier(new_dataset)
+#process_outlier(new_dataset)
 ```
 
 To identify outliers, I grouped data by the occupation and used the IQR method to identify any potential outliers and the occupation group they belong to. In a certain occupation category, wage related values are given a outlier score. The score 0 indicates the values are in the IQR range, and any value that is non-zero suggests an outlier.I listed alphabetically the occupations that have outliers in them among wage related variables. Note that almost all occupations have outlier wage values. To investigate into the outliers, package users are given the chance to choose which occupation they want to look into. Once the occupation is chosen, there will be two plots drawn.
