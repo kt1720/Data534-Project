@@ -32,7 +32,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       dplyr::group_by(year,province) |>
       ggplot2::ggplot(varwidth=TRUE) +
       #see the distribution around the nation
-      ggplot2::geom_boxplot(aes(x = year, y = median_wage,col=province)) #varwidth = TRUE
+      ggplot2::geom_boxplot(ggplot2::aes(x = year, y = median_wage,col=province)) #varwidth = TRUE
 
 
     lineplot<-records |>
@@ -42,7 +42,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       dplyr::summarize(mean_average=mean(median_wage,na.rm=TRUE),count=n(),.groups="drop") |>
       ggplot2::ggplot() +
       #set group=1 to connect every point with line
-      ggplot2::geom_line(aes(x=year,y=mean_average,col=province))+
+      ggplot2::geom_line(ggplot2::aes(x=year,y=mean_average,col=province))+
       #make plot more clear
       ggplot2::theme_minimal()
     #combine them
@@ -61,8 +61,8 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       dplyr::summarize(mean_average=mean(median_wage,na.rm=TRUE),count=n(),.groups="drop") |>
       ggplot2::ggplot() +
       #use col to distinguish type of job and facet to province
-      ggplot2::geom_line(aes(x=year,y=mean_average,col=occupation))+
-      ggplot2::geom_point(aes(x=year,y=mean_average,col=occupation))+
+      ggplot2::geom_line(ggplot2::aes(x=year,y=mean_average,col=occupation))+
+      ggplot2::geom_point(ggplot2::aes(x=year,y=mean_average,col=occupation))+
       ggplot2::facet_grid(~province)
 
     # point<-records%>%

@@ -53,7 +53,7 @@ process_outlier <- function(dataset){
     dplyr::gather(key='category', value='value')%>%
     dplyr::group_by(category, value)%>%
     dplyr::summarise(percentage=n()/nrow(selected_outlier_df)*100)
-  percent_plot <- ggplot2::ggplot(zero_data_percent, aes(x=category, y=percentage, fill=value))+
+  percent_plot <- ggplot2::ggplot(zero_data_percent, ggplot2::aes(x=category, y=percentage, fill=value))+
     ggplot2::geom_bar(stat='identity')+
     ggplot2::labs(title='Percentage of Outliers')+
     ggplot2::scale_y_continuous(labels=scales::percent_format(scale = 1))
@@ -68,7 +68,7 @@ process_outlier <- function(dataset){
   # Convert zero and non-zero values to factors for coloring
   outlier_dist$color <- ifelse(outlier_dist$value == 0, "white", "blue")
   # Create a grid-like plot
-  grid_plot <- ggplot2::ggplot(outlier_dist, aes(x = category, y = row_number, fill = color)) +
+  grid_plot <- ggplot2::ggplot(outlier_dist, ggplot2::aes(x = category, y = row_number, fill = color)) +
     ggplot2::geom_tile() +
     ggplot2::scale_fill_manual(values = c("white", "skyblue")) +
     ggplot2::theme_minimal() +
