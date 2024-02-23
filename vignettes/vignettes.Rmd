@@ -15,7 +15,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r include=FALSE}
-# Sys.setenv(CKAN_API_KEY = "your own API key")#"522bd094-7f62-4c3b-914d-bf6f0a20dc94"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -45,6 +44,10 @@ Or alternatively, download the development version of the package from Github.
 # library(devtools)
 # remotes::install_github("kt1720/canwage")
 library(canwage)
+library(tidyverse)
+library(patchwork)
+library(gridExtra)
+library(kableExtra)
 # Set API key as an enviornment variable
 # Sys.setenv(CKAN_API_KEY = "")
 ```
