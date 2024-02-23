@@ -27,19 +27,6 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
-      - name: Load functions
-        run: |
-          source("R/get_wage.R")
-          source("R/helpers.R")
-          source("R/list_occupations.R")
-          source("R/salary_range.R")
-          source("R/map.R")
-          source('R/process_NA.R')
-          source("R/process_outlier.R")
-          source("R/average_median_bar_plot.R")
-          source("R/wage_trend.R")
-        shell: Rscript {0}
-
       - name: Test coverage
         run: |
           covr::codecov(

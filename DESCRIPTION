@@ -1,12 +1,12 @@
-Package: Data534.wage
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Package: canwage
+Title: This is a canwage package
+Version: 1.0.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Eden", "Chen", email="hanchen0210@gmail.com", role = c("aut", "cre"))
+    person("Jade", "Yu", email="yujinxin01@gmail.com", role=c("aut", "cre"))
+    person("Kyle", "Deng", email="kyledeng97@gmail.com", role=c("aut", "cre"))
+Description: Use data analysis and visulizations to provide insights into the wage data from the Canadian government in the last ten years.
+License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
@@ -17,6 +17,8 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports:
+  devtools,
+  viridis,
   plotly,
   sf,
   rnaturalearth,
