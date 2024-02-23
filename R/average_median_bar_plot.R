@@ -1,17 +1,15 @@
 #' @name average_median_bar_plot
-#' 
+#'
 #' @title average median bar plot drawing
-#' 
+#'
 #' @description draw plot of a chosen year and occupation
 #'
 #' @param new_dataset a data frame
-#' 
+#'
 #' @return plots
 #'
 #' @export
-library(ggplot2)
-library(dplyr)
-library(lubridate)
+
 year_input <- function(){
   year_input <- readline(prompt = "Enter year:")
   return(year_input)
@@ -23,7 +21,7 @@ job_title_number_input <- function(){
 average_median_bar_plot <- function(new_dataset){
   year_input <- year_input()
   df_plot <- new_dataset%>%
-    filter(as.character(year(year))==year_input)
+    dplyr::filter(as.character(year(year))==year_input)
   noc_list <- unique(df_plot$occupation)
   #noc_list
   noc_list_output <- capture.output(noc_list)
@@ -31,14 +29,14 @@ average_median_bar_plot <- function(new_dataset){
   #kable(noc_list_output)
 
   job_title_number <- job_title_number_input()
-  
+
   selected_noc_title <- as.character(noc_list[[job_title_number]])
   data_by_selected_noc <- df_plot[df_plot$occupation==selected_noc_title, ]
   average_median <- aggregate(median_wage ~ province, data=data_by_selected_noc, FUN = mean)
-  ggplot(average_median)+
-    aes(x=province, y=median_wage)+
-    geom_bar(stat = 'identity', fill ='skyblue')+
-    labs(title = paste("Average median salaries of", selected_noc_title,"of year", year_input, sep=' '),
+  ggplot2::ggplot(average_median)+
+    ggplot2::aes(x=province, y=median_wage)+
+    ggplot2::geom_bar(stat = 'identity', fill ='skyblue')+
+    ggplot2::labs(title = paste("Average median salaries of", selected_noc_title,"of year", year_input, sep=' '),
          x="Province",
          y="Average Median Salaries",
     )
