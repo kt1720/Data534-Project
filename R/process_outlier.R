@@ -56,7 +56,8 @@ process_outlier <- function(dataset){
   percent_plot <- ggplot2::ggplot(zero_data_percent, ggplot2::aes(x=category, y=percentage, fill=value))+
     ggplot2::geom_bar(stat='identity')+
     ggplot2::labs(title='Percentage of Outliers')+
-    ggplot2::scale_y_continuous(labels=scales::percent_format(scale = 1))
+    ggplot2::scale_y_continuous(labels=scales::percent_format(scale = 1)) +
+    ggplot2::scale_fill_manual(values = c("white" = "white", "Outlier" = "blue"))
   print(percent_plot)
 
   #now draw a grid like plot
