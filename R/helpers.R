@@ -28,15 +28,15 @@ translate_province <- function(province){
                       "ON" = "Ontario",
                       "QC" = "Quebec",
                       "NB" = "New Brunswick",
-                      "YK" = "Yukon",
+                      "YK" = "Yukon Territory",
                       "NU" = "Nunavut",
                       "NL" = "Newfoundland and Labrador",
                       "NS" = "Nova Scotia",
                       "NT" = "Northwest Territories",
                       "NW" = "Northwest Territories",
                       "PE" = "Prince Edward Island",
-                      "YT" = "Yukon")
-  
+                      "YT" = "Yukon Territory")
+
   province <- dplyr::case_when(province %in% names(full_prov_name) ~ full_prov_name[province], TRUE ~ province)
   return(province)
 }
@@ -49,17 +49,17 @@ get_wage_single_year <- function(year, api_key){
       httr2::req_headers(Authorization = api_key) |>
       httr2::req_body_json(list(
         resource_id = dataset,
-        limit = 45000, 
+        limit = 45000,
         filters = if(year == 2023){
-          list(ER_Name = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+          list(ER_Name = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario",
                               "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
                               "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia"))
         } else if(year == 2014 | year == 2015){
-          list(Economic_Region = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+          list(Economic_Region = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario",
                                       "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
                                       "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia"))
         } else {
-          list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario", 
+          list(ER_Name_Nom_RE = list("Newfoundland and Labrador", "New Brunswick", "Quebec", "Ontario",
                                      "Manitoba", "Alberta", "British Columbia", "Yukon Territory", "Northwest Territories",
                                      "Nunavut", "Prince Edward Island", "Saskatchewan", "Nova Scotia"))
         }
@@ -81,11 +81,11 @@ pre_process_dataset <- function(period, json){
     tidyr::unnest((everything())) |>
     dplyr::select(dplyr::contains(c("noc_title", "wage_salaire", "annual")), prov, -dplyr::matches("fra|average|noc_title_f")) |>
     dplyr::mutate(across(dplyr::contains("wage"), as.numeric), year=as.Date(paste0(period, "-01-01"), format = "%Y-%m-%d")) |>
-    dplyr::rename(occupation = dplyr::contains("noc_title"), 
-                  low_wage = low_wage_salaire_minium, 
-                  median_wage = median_wage_salaire_median, 
+    dplyr::rename(occupation = dplyr::contains("noc_title"),
+                  low_wage = low_wage_salaire_minium,
+                  median_wage = median_wage_salaire_median,
                   high_wage = high_wage_salaire_maximal,
-                  province = prov) 
+                  province = prov)
   if(period == 2016){
     df <- df |>
       dplyr::rename(annual_wage_flag = annual_wage) |>
