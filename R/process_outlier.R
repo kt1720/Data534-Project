@@ -50,7 +50,7 @@ process_outlier <- function(dataset){
   zero_data_percent <- selected_outlier_df |>
     dplyr::select(-occupation) |>
     dplyr::mutate_all(~ifelse(.==0, "Non-outlier", "Outlier")) |>
-    dplyr::gather(key='category', value='value') |>
+    tidyr::gather(key='category', value='value') |>
     dplyr::group_by(category, value) |>
     dplyr::summarise(percentage=n()/nrow(selected_outlier_df)*100)
   percent_plot <- ggplot2::ggplot(zero_data_percent, ggplot2::aes(x=category, y=percentage, fill=value))+
@@ -63,7 +63,7 @@ process_outlier <- function(dataset){
   outlier_dist <- selected_outlier_df |>
     dplyr::select(-occupation) |>
     dplyr::mutate(row_number = 1:n())  |>
-    dplyr::gather(key = "category", value = "value", -row_number)
+    tidyr::gather(key = "category", value = "value", -row_number)
 
   # Convert zero and non-zero values to factors for coloring
   outlier_dist$color <- ifelse(outlier_dist$value == 0, "white", "blue")
