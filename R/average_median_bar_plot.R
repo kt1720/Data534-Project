@@ -21,7 +21,7 @@ job_title_number_input <- function(){
 average_median_bar_plot <- function(new_dataset){
   year_input <- year_input()
   df_plot <- new_dataset |>
-    dplyr::filter(as.character(year(year))==year_input)
+    dplyr::filter(as.character(lubridate::year(year))==year_input)
   noc_list <- unique(df_plot$occupation)
   #noc_list
   noc_list_output <- capture.output(noc_list)
