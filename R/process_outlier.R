@@ -20,20 +20,20 @@ job_title_number_input <- function(){
 }
 process_outlier <- function(dataset){
   dataset$occupation <- tolower(dataset$occupation)
-  outliers_df <- dataset%>%
-    dplyr::group_by(occupation)%>%
+  outliers_df <- dataset |>
+    dplyr::group_by(occupation) |>
     dplyr::reframe(
       low_wage_outlier_score = outliers::scores(low_wage, type='iqr'),
       high_wage_outlier_score = outliers::scores(high_wage, type='iqr'),
       median_wage_outlier_score = outliers::scores(median_wage, type='iqr')
-    )%>%
+    ) |>
     dplyr::ungroup()
 
   # outliers_df%>%
   #   filter(!(low_wage_outlier_score==0 & median_wage_outlier_score==0 & high_wage_outlier_score==0))
   outlier_jobs <- data.frame(
-    unique(outliers_df%>%
-             dplyr::filter(!(low_wage_outlier_score==0 & median_wage_outlier_score==0 & high_wage_outlier_score==0))%>%
+    unique(outliers_df |>
+             dplyr::filter(!(low_wage_outlier_score==0 & median_wage_outlier_score==0 & high_wage_outlier_score==0)) |>
              dplyr::select(occupation)
     )
   )
@@ -47,11 +47,11 @@ process_outlier <- function(dataset){
   cat("You have chosen:", selected_job, "\n")# "Accommodation Service Managers"
   selected_outlier_df <- outliers_df[outliers_df$occupation==selected_job, ]
 
-  zero_data_percent <- selected_outlier_df%>%
-    dplyr::select(-occupation)%>%
-    dplyr::mutate_all(~ifelse(.==0, "Non-outlier", "Outlier"))%>%
-    dplyr::gather(key='category', value='value')%>%
-    dplyr::group_by(category, value)%>%
+  zero_data_percent <- selected_outlier_df |>
+    dplyr::select(-occupation) |>
+    dplyr::mutate_all(~ifelse(.==0, "Non-outlier", "Outlier")) |>
+    dplyr::gather(key='category', value='value') |>
+    dplyr::group_by(category, value) |>
     dplyr::summarise(percentage=n()/nrow(selected_outlier_df)*100)
   percent_plot <- ggplot2::ggplot(zero_data_percent, ggplot2::aes(x=category, y=percentage, fill=value))+
     ggplot2::geom_bar(stat='identity')+
@@ -60,9 +60,9 @@ process_outlier <- function(dataset){
   print(percent_plot)
 
   #now draw a grid like plot
-  outlier_dist <- selected_outlier_df %>%
-    dplyr::select(-occupation)%>%
-    dplyr::mutate(row_number = 1:n()) %>%
+  outlier_dist <- selected_outlier_df |>
+    dplyr::select(-occupation) |>
+    dplyr::mutate(row_number = 1:n())  |>
     dplyr::gather(key = "category", value = "value", -row_number)
 
   # Convert zero and non-zero values to factors for coloring
