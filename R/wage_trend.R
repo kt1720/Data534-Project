@@ -33,9 +33,9 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
     boxplot<-records |>
       filter(median_wage<filte) |>
       group_by(year,province) |>
-      ggplot(varwidth=TRUE) +
+      ggplot2::ggplot(varwidth=TRUE) +
       #see the distribution around the nation
-      geom_boxplot(aes(x = year, y = median_wage,col=province)) #varwidth = TRUE
+      ggplot2::geom_boxplot(aes(x = year, y = median_wage,col=province)) #varwidth = TRUE
 
 
     lineplot<-records |>
@@ -43,11 +43,11 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       group_by(year,province) |>
       #calculate the mean value to draw the trend plot
       summarize(mean_average=mean(median_wage,na.rm=TRUE),count=n(),.groups="drop") |>
-      ggplot() +
+      ggplot2::ggplot() +
       #set group=1 to connect every point with line
-      geom_line(aes(x=year,y=mean_average,col=province))+
+      ggplot2::geom_line(aes(x=year,y=mean_average,col=province))+
       #make plot more clear
-      theme_minimal()
+      ggplot2::theme_minimal()
     #combine them
     combined_plot <- grid.arrange(boxplot, lineplot, ncol = 2)
     #ggsave("overall_wage_trend.png", plot = combined_plot, width = 8, height = 6, dpi = 300)
@@ -62,11 +62,11 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       group_by(year,province,occupation) |>
       #calculate the mean value to draw the trend plot
       summarize(mean_average=mean(median_wage,na.rm=TRUE),count=n(),.groups="drop") |>
-      ggplot() +
+      ggplot2::ggplot() +
       #use col to distinguish type of job and facet to province
-      geom_line(aes(x=year,y=mean_average,col=occupation))+
-      geom_point(aes(x=year,y=mean_average,col=occupation))+
-      facet_grid(~province)
+      ggplot2::geom_line(aes(x=year,y=mean_average,col=occupation))+
+      ggplot2::geom_point(aes(x=year,y=mean_average,col=occupation))+
+      ggplot2::facet_grid(~province)
 
     # point<-records%>%
     #   #choose the province and type of jobs selected
