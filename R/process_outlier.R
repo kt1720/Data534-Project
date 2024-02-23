@@ -73,8 +73,8 @@ process_outlier <- function(dataset){
     ggplot2::geom_tile() +
     ggplot2::scale_fill_manual(values = c("white", "skyblue")) +
     ggplot2::theme_minimal() +
-    ggplot2::theme(axis.text = element_text(size = 8),
-          axis.title = element_blank(),
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 8),
+          axis.title = ggplot2::element_blank(),
           legend.position = "none") +
     ggplot2::labs(title = "Grid Representation of Outlier Values According to IQR Score",
          x = "Category",
