@@ -39,7 +39,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       dplyr::filter(median_wage<filte) |>
       dplyr::group_by(year,province) |>
       #calculate the mean value to draw the trend plot
-      dplyr::summarize(mean_average=mean(median_wage,na.rm=TRUE),count=n(),.groups="drop") |>
+      dplyr::summarize(mean_average=mean(median_wage,na.rm=TRUE),count=dplyr::n(),.groups="drop") |>
       ggplot2::ggplot() +
       #set group=1 to connect every point with line
       ggplot2::geom_line(ggplot2::aes(x=year,y=mean_average,col=province))+
@@ -58,7 +58,7 @@ trend<-function(records,type,filte=100000000,provs=c("Ontario","British Columbia
       dplyr::filter(province %in% provs ,occupation %in% positions, median_wage<filte) |>
       dplyr::group_by(year,province,occupation) |>
       #calculate the mean value to draw the trend plot
-      dplyr::summarize(mean_average=mean(median_wage,na.rm=TRUE),count=n(),.groups="drop") |>
+      dplyr::summarize(mean_average=mean(median_wage,na.rm=TRUE),count=dplyr::n(),.groups="drop") |>
       ggplot2::ggplot() +
       #use col to distinguish type of job and facet to province
       ggplot2::geom_line(ggplot2::aes(x=year,y=mean_average,col=occupation))+
